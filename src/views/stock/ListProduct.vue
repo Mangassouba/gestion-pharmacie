@@ -19,14 +19,24 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name </th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-          <th scope="col"></th>
+          <th scope="col">Description</th>
+          <th scope="col">Description</th>
+          <th scope="col">Stock</th>
+          <th scope="col">Sale-price</th>
+          <th scope="col">Purchase-price</th>
+          <th scope="col">threshold</th>
+          <th scope="col">Prescription-req</th>
+          <th scope="col">Barcode</th>
           <th scope="col" class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
         <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
           <th></th>
           <td></td>
           <td></td>
