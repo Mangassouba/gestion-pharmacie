@@ -1,50 +1,88 @@
 <template>
-    <div class="container mt-4">
-    <h2></h2>
+  <div class="container mt-4">
     <div class="row d-flex mt-4">
       <div class="col-6">
-        <div class="form-group col-md-6">
-          <input type="search" class="form-control" id="" placeholder="recherche">
-        </div>
+        <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
       </div>
       <div class="col-6">
         <div class="d-flex justify-content-end">
-      <RouterLink class="btn btn-primary">add</RouterLink>
+          <RouterLink to="/stock/add" class="btn btn-primary">Add</RouterLink>
+        </div>
+      </div>
     </div>
+
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailsModalLabel">Product Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="productName" class="form-label">Name</label>
+                <input type="text" class="form-control" id="productName" :value="selectedProduct?.name" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="productDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="productDescription" :value="selectedProduct?.description" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="productStock" class="form-label">Stock</label>
+                <input type="number" class="form-control" id="productStock" :value="selectedProduct?.stock" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="productSalePrice" class="form-label">Sale Price</label>
+                <input type="number" class="form-control" id="productSalePrice" :value="selectedProduct?.sale_price" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="productPurchasePrice" class="form-label">Purchase Price</label>
+                <input type="number" class="form-control" id="productPurchasePrice" :value="selectedProduct?.purchase_price" disabled>
+              </div>
+              <div class="mb-3">
+                <label for="productBarcode" class="form-label">Barcode</label>
+                <input type="text" class="form-control" id="productBarcode" :value="selectedProduct?.barcode" disabled>
+              </div>
+              <!-- Additional fields as needed -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <table class="table table-striped table-bordered mt-4 mb-4">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Name </th>
-          <th scope="col">Description</th>
-          <th scope="col">Description</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Sale-price</th>
-          <th scope="col">Purchase-price</th>
-          <th scope="col">threshold</th>
-          <th scope="col">Prescription-req</th>
-          <th scope="col">Barcode</th>
-          <th scope="col" class="text-center">Action</th>
+          <th>#</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Stock</th>
+          <th>Sale-price</th>
+          <th>Purchase-price</th>
+          <th>Threshold</th>
+          <th>Prescription-req</th>
+          <th>Barcode</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="(product, index) in paginatedProducts" :key="product.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.stock }}</td>
+          <td>{{ product.sale_price }}</td>
+          <td>{{ product.purchase_price }}</td>
+          <td>{{ product.threshold }}</td>
+          <td>{{ product.prescription_req ? 'Oui' : 'Non' }}</td>
+          <td>{{ product.barcode }}</td>
           <td class="text-center">
             <button
-              class="btn btn-danger btn-sm me-2"
+              class="btn btn-danger btn-sm me-2" @click="handleDelete(product.id)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +98,7 @@
               </svg>
             </button>
             <button
-              class="btn btn-warning btn-sm me-2"
+              class="btn btn-warning btn-sm me-2" 
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +118,7 @@
               </svg>
             </button>
             <button
-              class="btn btn-info btn-sm me-2"
+              class="btn btn-info btn-sm me-2" @click="openModal(product)"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +140,86 @@
         </tr>
       </tbody>
     </table>
+
+    <!-- Pagination Controls -->
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <button class="page-link" @click="prevPage">Previous</button>
+        </li>
+        <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+          <button class="page-link" @click="currentPage = page">{{ page }}</button>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+          <button class="page-link" @click="nextPage">Next</button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
-<script setup></script>
-<style scoped></style>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useProductStore } from '../../stores/productStore';
+import { Modal } from 'bootstrap';
+
+const store = useProductStore();
+const searchQuery = ref('');
+const currentPage = ref(1);
+const itemsPerPage = 10;
+
+// Fetch products on mount
+onMounted(async () => {
+  await store.fetchProducts();
+});
+
+const selectedProduct = ref(null);
+const openModal = (product) => {
+  selectedProduct.value = product;
+  const modalElement = document.getElementById('detailsModal');
+  const modal = new Modal(modalElement);  // Create a new Modal instance
+  modal.show();
+};
+
+// Computed property for filtered products
+const filteredProducts = computed(() => {
+  return store.products.filter(product =>
+    product.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+    product.barcode.includes(searchQuery.value)
+  );
+});
+
+// Computed property for paginated products
+const paginatedProducts = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return filteredProducts.value.slice(start, end);
+});
+
+// Total pages for pagination
+const totalPages = computed(() => {
+  return Math.ceil(filteredProducts.value.length / itemsPerPage);
+});
+
+// Navigation for pagination
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+};
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const handleDelete = async (id) => {
+  if (confirm("Are you sure you want to delete this product?")) {
+    await store.deleteProduct(id);
+  }
+};
+</script>
+
+<style scoped>
+/* Optional styling */
+</style>

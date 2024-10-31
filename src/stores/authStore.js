@@ -1,43 +1,46 @@
-// src/store/authStore.js
-import { defineStore } from 'pinia'
-import authService from '../services/authService'
+import { defineStore } from "pinia";
+import axios from "axios";
 
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("authStore", {
   state: () => ({
+    token: null,
     user: null,
-    isAuthenticated: false,
-    token: localStorage.getItem('token') || null,
+    tokenUserActif: localStorage.getItem("token")
   }),
+
   actions: {
     async login(email, password) {
       try {
-        const data = await authService.login(email, password)
-        this.user = data.user
-        this.token = data.token
-        this.isAuthenticated = true
-        localStorage.setItem('token', data.token)
+        const response = await axios.post("http://localhost:3000/login", {
+          email,
+          password
+        });
+ this.token = response.data.accessToken
+
+        localStorage.setItem("token",this.token );
+        const userToken = localStorage.getItem("token")
+        
+        console.log("TOOOOOOO; :", userToken);
+        
+
+        // const userResponse = await axios.get("http://localhost:3000/api/me", {
+        //   headers: {
+        //     Authorization: `Bearer ${this.token}`
+        //   }
+        // });
+
+        // this.user = userResponse.data.user;
       } catch (error) {
-        console.error('Login error:', error)
-        throw error
+        console.error("Erreur lors de la connexion :", error.message);
+        throw error;
       }
     },
+
     logout() {
-      authService.logout()
-      this.user = null
-      this.isAuthenticated = false
-      this.token = null
-      localStorage.removeItem('token')
-    },
-    async fetchCurrentUser() {
-      if (!this.token) return
-      try {
-        const data = await authService.getCurrentUser()
-        this.user = data
-        this.isAuthenticated = true
-      } catch (error) {
-        console.error('Fetch current user error:', error)
-        this.logout()
-      }
-    },
+      this.token = null;
+      this.user = null;
+    }
   },
-})
+
+  persist: true
+});

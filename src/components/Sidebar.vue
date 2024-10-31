@@ -28,16 +28,16 @@
     <ul class="nav flex-column">
       <li class="nav-item"><RouterLink to="/main" class="nav-link text-white">Dashboard</RouterLink></li>
       <li class="nav-item"><RouterLink to="/stock/addProduit" class="nav-link text-white">Product</RouterLink></li>
-      <li class="nav-item"><RouterLink class="nav-link text-white">Customer</RouterLink></li>
-      <li class="nav-item"><RouterLink class="nav-link text-white">Supplier</RouterLink></li>
-      <li class="nav-item"><RouterLink class="nav-link text-white">Dashboard</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Customer</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Supplier</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Dashboard</RouterLink></li>
     </ul>
     </div>
     <RouterView/>
   </template>
   
   <script setup>
-  import { ref } from 'vue'
+  // import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router';
   
   // const menuItems = ref([

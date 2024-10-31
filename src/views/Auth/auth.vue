@@ -33,33 +33,35 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "../../stores/authStore";
 
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const router = useRouter();
+const auth = useAuthStore()
 
 const handleLogin = async () => {
   try {
-    const response = await fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email.value,
-        password: password.value,
-      }),
-    });
+    // const response = await fetch("http://localhost:3000/login", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     email: email.value,
+    //     password: password.value,
+    //   }),
+    // });
 
-    const data = await response.json();
+    // const data = await response.json();
 
-    if (!response.ok) {
-      errorMessage.value = data.message || "Erreur lors de la connexion";
-      return;
-    }
-
-    localStorage.setItem("token", data.token);
+    // if (!response.ok) {
+    //   errorMessage.value = data.message || "Erreur lors de la connexion";
+    //   return;
+    // }
+    await auth.login(email.value, password.value)
+    
 
     router.push("/dashboard");
   } catch (error) {

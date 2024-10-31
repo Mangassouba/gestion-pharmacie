@@ -3,6 +3,7 @@ import Auth from "../views/Auth/auth.vue";
 import Index from "../views/Dashboard/index.vue";
 import AddProduit from "../views/stock/ListProduct.vue";
 import MainContent from "../components/MainContent.vue";
+import AddProduct from "../views/stock/addProduct.vue";
 // import Dashbord from "../components/Dashbord.vue";
 
 const routes = [
@@ -18,7 +19,7 @@ const routes = [
     children: [
       {
         path: "/main",
-        nama: "",
+        nama: "main",
         component: MainContent,
       },
       {
@@ -26,6 +27,11 @@ const routes = [
         name: "addProduit",
         component: AddProduit,
       },
+      {
+        path: "/stock/add",
+        name: "add",
+        component: AddProduct
+      }
     ],
   },
 ];
