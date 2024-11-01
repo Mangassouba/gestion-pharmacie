@@ -30,7 +30,7 @@
                 </div>
                 <div class="mb-3">
                   <label for="customerStock" class="form-label">Address</label>
-                  <input type="number" class="form-control" id="customerStock" :value="selectedcustomer?.address" disabled>
+                  <input type="text" class="form-control" id="customerStock" :value="selectedcustomer?.address" disabled>
                 </div>
                 <div class="mb-3">
                   <label for="customerSalePrice" class="form-label">Phone</label>
@@ -81,7 +81,7 @@
                   />
                 </svg>
               </button>
-              <!-- <router-link :to="{ name: 'editcustomer', params: { id: customer.id }}"
+              <router-link :to="{ name: 'editCustomer', params: { id: customer.id }}"
                 class="btn btn-warning btn-sm me-2" 
               >
                 <svg
@@ -100,7 +100,7 @@
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                   />
                 </svg>
-              </router-link> -->
+              </router-link>
               <button
                 class="btn btn-info btn-sm me-2" @click="openModal(customer)"
               >
@@ -163,30 +163,26 @@ import { useCustomerStore } from '../../stores/customerStore';
   const openModal = (customer) => {
     selectedcustomer.value = customer;
     const modalElement = document.getElementById('detailsModal');
-    const modal = new Modal(modalElement);  // Create a new Modal instance
+    const modal = new Modal(modalElement); 
     modal.show();
   };
   
-  // Computed property for filtered customers
   const filteredcustomers = computed(() => {
     return store.customers.filter(customer =>
     customer.firstName.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   });
   
-  // Computed property for paginated customers
   const paginatedcustomers = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
     const end = start + itemsPerPage;
     return filteredcustomers.value.slice(start, end);
   });
   
-  // Total pages for pagination
   const totalPages = computed(() => {
     return Math.ceil(filteredcustomers.value.length / itemsPerPage);
   });
   
-  // Navigation for pagination
   const nextPage = () => {
     if (currentPage.value < totalPages.value) {
       currentPage.value++;
@@ -197,14 +193,7 @@ import { useCustomerStore } from '../../stores/customerStore';
       currentPage.value--;
     }
   };
-  
-  // function editcustomer(customer) {
-  //   console.log(customer);
     
-  //   router.push({ name: "editcustomer", params: { id: customer.id } });
-  // }
-  
-  
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {
       await store.deletecustomer(id);

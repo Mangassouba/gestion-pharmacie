@@ -7,6 +7,7 @@ import AddProduct from "../views/stock/addProduct.vue";
 import EditProduct from "../views/stock/editProduct.vue";
 import ListCustomer from "../views/customers/listCustomer.vue";
 import AddCustomer from "../views/customers/addCustomer.vue";
+import EditCustomer from "../views/customers/editCustomer.vue";
 // import Dashbord from "../components/Dashbord.vue";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
         path: "/customer/add",
         name: "addCustomer",
         component: AddCustomer
+      },
+      {
+        path: "/customer/edit/:id",
+        name: "editCustomer",
+        component: EditCustomer
       }
     ],
   },
