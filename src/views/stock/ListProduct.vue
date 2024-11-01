@@ -71,7 +71,7 @@
       </thead>
       <tbody>
         <tr v-for="(product, index) in paginatedProducts" :key="product.id">
-          <td>{{ index + 1 }}</td>
+          <td>{{ product.id }}</td>
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
           <td>{{ product.stock }}</td>
@@ -97,7 +97,7 @@
                 />
               </svg>
             </button>
-            <button
+            <router-link :to="{ name: 'editProduct', params: { id: product.id }}"
               class="btn btn-warning btn-sm me-2" 
             >
               <svg
@@ -116,7 +116,7 @@
                   d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                 />
               </svg>
-            </button>
+            </router-link>
             <button
               class="btn btn-info btn-sm me-2" @click="openModal(product)"
             >
@@ -139,6 +139,7 @@
           </td>
         </tr>
       </tbody>
+      <RouterView />
     </table>
 
     <!-- Pagination Controls -->
@@ -162,6 +163,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useProductStore } from '../../stores/productStore';
 import { Modal } from 'bootstrap';
+import { RouterView } from 'vue-router';
 
 const store = useProductStore();
 const searchQuery = ref('');
@@ -212,6 +214,13 @@ const prevPage = () => {
     currentPage.value--;
   }
 };
+
+// function editProduct(product) {
+//   console.log(product);
+  
+//   router.push({ name: "editProduct", params: { id: product.id } });
+// }
+
 
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this product?")) {

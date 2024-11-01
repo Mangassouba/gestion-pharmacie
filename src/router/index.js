@@ -4,6 +4,7 @@ import Index from "../views/Dashboard/index.vue";
 import AddProduit from "../views/stock/ListProduct.vue";
 import MainContent from "../components/MainContent.vue";
 import AddProduct from "../views/stock/addProduct.vue";
+import EditProduct from "../views/stock/editProduct.vue";
 // import Dashbord from "../components/Dashbord.vue";
 
 const routes = [
@@ -31,7 +32,12 @@ const routes = [
         path: "/stock/add",
         name: "add",
         component: AddProduct
-      }
+      },
+      {
+        path: "/stock/edit/:id",
+        name: "editProduct",
+        component: EditProduct,
+      },
     ],
   },
 ];

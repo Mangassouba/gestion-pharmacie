@@ -31,6 +31,10 @@ export const useProductStore = defineStore('product', {
         throw error;
       }
     },
+    
+  getProductById(productId) {
+    return this.products.find(p => p.id === productId);
+ },
     async addProduct(productData) {
       // const authStore = useAuthStore();
 
@@ -47,11 +51,13 @@ export const useProductStore = defineStore('product', {
       }
     },
     async updateProduct(productId, productData) {
-      const authStore = useAuthStore();
+      console.log(productId);
+      
+      console.log("TOKEN FROM PRODUCT :",this.tokenUserActif);
       try {
         const response = await axios.put(`http://localhost:3000/product/${productId}`, productData, {
           headers: {
-            Authorization: `Bearer ${authStore.token}`,
+            Authorization: `Bearer ${this.tokenUserActif}`,
           },
         });
         const index = this.products.findIndex(product => product.id === productId);
