@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './authStore';
 
-export const usecustomerStore = defineStore('customer', {
+export const useCustomerStore = defineStore('customer', {
   state: () => ({
     customers: [],
     tokenUserActif: localStorage.getItem("token")
@@ -24,7 +24,7 @@ export const usecustomerStore = defineStore('customer', {
         
         this.customers = response.data; // Set the customers array with response data
         
-        console.log(this.customers);
+        // console.log(this.customers);
         return this.customers;
       } catch (error) {
         console.error("Erreur lors du chargement des produits :", error.message);
@@ -39,7 +39,7 @@ export const usecustomerStore = defineStore('customer', {
       // const authStore = useAuthStore();
 
       try {
-        const response = await axios.post('http://localhost:3000/customer/', customerData, {
+        const response = await axios.post('http://localhost:3000/customers/', customerData, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
@@ -55,7 +55,7 @@ export const usecustomerStore = defineStore('customer', {
       
       console.log("TOKEN FROM customer :",this.tokenUserActif);
       try {
-        const response = await axios.put(`http://localhost:3000/customer/${customerId}`, customerData, {
+        const response = await axios.put(`http://localhost:3000/customers/${customerId}`, customerData, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
@@ -67,9 +67,9 @@ export const usecustomerStore = defineStore('customer', {
       }
     },
     async deletecustomer(customerId) {
-      const authStore = useAuthStore();
+    //   const authStore = useAuthStore();
       try {
-        await axios.delete(`http://localhost:3000/customer/${customerId}`, {
+        await axios.delete(`http://localhost:3000/customers/${customerId}`, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
