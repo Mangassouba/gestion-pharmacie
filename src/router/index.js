@@ -8,7 +8,8 @@ import EditProduct from "../views/stock/editProduct.vue";
 import ListCustomer from "../views/customers/listCustomer.vue";
 import AddCustomer from "../views/customers/addCustomer.vue";
 import EditCustomer from "../views/customers/editCustomer.vue";
-// import Dashbord from "../components/Dashbord.vue";
+import ListOrder from "../views/orders/listOrder.vue";
+import AddOrder from "../views/orders/AddOrder.vue";
 
 const routes = [
   {
@@ -55,6 +56,16 @@ const routes = [
         path: "/customer/edit/:id",
         name: "editCustomer",
         component: EditCustomer
+      },
+      {
+        path: "/orders/list",
+        name: "listOrder",
+        component: ListOrder
+      },
+      {
+        path: "/order/add",
+        name: "addOrder",
+        component: AddOrder
       }
     ],
   },

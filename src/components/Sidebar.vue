@@ -1,36 +1,16 @@
 <template>
     <div class="sidebar bg-dark text-white p-3" id="sidebar-wrapper">
       <h5 class="text-center sidebar-title">Pharma Dashboard</h5>
-      <!-- <ul class="nav flex-column">
-        <li class="nav-item" v-for="(item, index) in menuItems" :key="index">
-          <a
-            class="nav-link text-white"
-            :class="{ 'active': isActive(index) }"
-            @click="toggleDropdown(index)"
-            href="#"
-            role="button"
-            aria-expanded="isDropdownOpen[index]"
-          >
-            <i :class="item.icon"></i>
-            <span class="menu-text ms-2">{{ item.text }}</span>
-            <i class="fas fa-caret-down ms-auto" v-if="item.subMenu"></i>
-          </a>
-          <ul class="nav flex-column ms-3" v-if="isDropdownOpen[index]">
-            <li class="nav-item" v-for="(subItem, subIndex) in item.subMenu" :key="subIndex">
-              <RouterLink to= "/main" class="nav-link text-white" href="#">
-                <i :class="subItem.icon"></i>
-                <span class="menu-text ms-2">{{ subItem.text }}</span>
-              </RouterLink>
-            </li>
-          </ul>
-        </li>
-      </ul> -->
     <ul class="nav flex-column">
       <li class="nav-item"><RouterLink to="/main" class="nav-link text-white">Dashboard</RouterLink></li>
       <li class="nav-item"><RouterLink to="/stock/addProduit" class="nav-link text-white">Product</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/orders/list" class="nav-link text-white">Order</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Reception</RouterLink></li>
       <li class="nav-item"><RouterLink to="/customer/list" class="nav-link text-white">Customer</RouterLink></li>
       <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Supplier</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Dashboard</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Batch</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">User</RouterLink></li>
+      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Deconnexion</RouterLink></li>
     </ul>
     </div>
     <RouterView/>
