@@ -18,7 +18,7 @@
     </RouterLink>
   </li>
   <li class="nav-item">
-    <RouterLink to="/" class="nav-link text-white">
+    <RouterLink to="/reception/list" class="nav-link text-white">
       <i class="fas fa-truck"></i> Reception
     </RouterLink>
   </li>
