@@ -1,17 +1,54 @@
 <template>
     <div class="sidebar bg-dark text-white p-3" id="sidebar-wrapper">
-      <h5 class="text-center sidebar-title">Pharma Dashboard</h5>
-    <ul class="nav flex-column">
-      <li class="nav-item"><RouterLink to="/main" class="nav-link text-white">Dashboard</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/stock/addProduit" class="nav-link text-white">Product</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/orders/list" class="nav-link text-white">Order</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Reception</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/customer/list" class="nav-link text-white">Customer</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Supplier</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Batch</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">User</RouterLink></li>
-      <li class="nav-item"><RouterLink to="/" class="nav-link text-white">Deconnexion</RouterLink></li>
-    </ul>
+      <h5 class="text-center sidebar-title"></h5>
+      <ul class="nav flex-column">
+  <li class="nav-item">
+    <RouterLink to="/main" class="nav-link text-white">
+      <i class="fas fa-tachometer-alt"></i> Dashboard
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/stock/addProduit" class="nav-link text-white">
+      <i class="fas fa-box"></i> Product
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/orders/list" class="nav-link text-white">
+      <i class="fas fa-shopping-cart"></i> Order
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/" class="nav-link text-white">
+      <i class="fas fa-truck"></i> Reception
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/customer/list" class="nav-link text-white">
+      <i class="fas fa-user"></i> Customer
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/" class="nav-link text-white">
+      <i class="fas fa-people-carry"></i> Supplier
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/" class="nav-link text-white">
+      <i class="fas fa-boxes"></i> Batch
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/" class="nav-link text-white">
+      <i class="fas fa-users"></i> User
+    </RouterLink>
+  </li>
+  <li class="nav-item">
+    <RouterLink to="/" class="nav-link text-white">
+      <i class="fas fa-sign-out-alt"></i> Deconnexion
+    </RouterLink>
+  </li>
+</ul>
+
     </div>
     <RouterView/>
   </template>

@@ -26,7 +26,7 @@
             </div>
             <div class="mb-3">
               <label for="customerId" class="form-label">Customer</label>
-              <input type="number" class="form-control" id="customerId" :value="selectedOrder?.clientId" disabled>
+              <input type="number" class="form-control" id="customerId" :value="selectedOrder?.customerId" disabled>
             </div>
             <!-- Additional order fields if needed -->
 
@@ -66,7 +66,7 @@
           <tr v-for="(order, index) in paginatedOrders" :key="order.id">
             <td>{{ order.id }}</td>
             <td>{{ order.order_date }}</td>
-            <td>{{ order.clientId }}</td>
+            <td>{{ order.customerId }}</td>
             
             <td class="text-center">
               <button

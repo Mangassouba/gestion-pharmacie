@@ -18,7 +18,7 @@
           <label for="clientId" class="form-label">Client</label>
           <select
             id="clientId"
-            v-model="clientId"
+            v-model="customerId"
             class="form-control"
             required
           >
@@ -90,7 +90,7 @@ import moment from 'moment';
   const customerStore = useCustomerStore();
   
   const order_date = ref('');
-  const clientId = ref('');
+  const customerId = ref('');
   const orderDetails = ref([{ productId: '', quantity: 1, price: 0 }]);
   const customers = ref([]);
   const products = ref([]);
@@ -114,7 +114,7 @@ import moment from 'moment';
   const handleSubmit = async () => {
     const newOrder = {
       order_date: moment(order_date.value).toISOString(),
-      clientId: clientId.value,
+      customerId: customerId.value,
       detailsOrder: JSON.parse(JSON.stringify(orderDetails.value))
     };
     await store.addOrder(newOrder);
