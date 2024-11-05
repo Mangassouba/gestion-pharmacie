@@ -28,7 +28,7 @@
     </RouterLink>
   </li>
   <li class="nav-item">
-    <RouterLink to="/" class="nav-link text-white">
+    <RouterLink to="/supplier/list" class="nav-link text-white">
       <i class="fas fa-people-carry"></i> Supplier
     </RouterLink>
   </li>
