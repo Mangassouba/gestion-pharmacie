@@ -38,7 +38,7 @@
     </RouterLink>
   </li>
   <li class="nav-item">
-    <RouterLink to="/" class="nav-link text-white">
+    <RouterLink to="/batch/list" class="nav-link text-white">
       <i class="fas fa-boxes"></i> Batch
     </RouterLink>
   </li>
