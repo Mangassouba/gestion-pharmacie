@@ -43,7 +43,7 @@
     </RouterLink>
   </li>
   <li class="nav-item">
-    <RouterLink to="/" class="nav-link text-white">
+    <RouterLink to="/user/list" class="nav-link text-white">
       <i class="fas fa-users"></i> User
     </RouterLink>
   </li>
