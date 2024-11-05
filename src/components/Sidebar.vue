@@ -43,6 +43,11 @@
     </RouterLink>
   </li>
   <li class="nav-item">
+    <RouterLink to="/movement/list" class="nav-link text-white">
+      <i class="fas fa-boxes"></i> Movement
+    </RouterLink>
+  </li>
+  <li class="nav-item">
     <RouterLink to="/user/list" class="nav-link text-white">
       <i class="fas fa-users"></i> User
     </RouterLink>
