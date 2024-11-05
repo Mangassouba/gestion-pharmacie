@@ -11,6 +11,7 @@ import EditCustomer from "../views/customers/editCustomer.vue";
 import ListOrder from "../views/orders/listOrder.vue";
 import AddOrder from "../views/orders/AddOrder.vue";
 import ListReception from "../views/receptions/listReception.vue";
+import AddReception from "../views/receptions/addReception.vue";
 
 const routes = [
   {
@@ -72,6 +73,11 @@ const routes = [
         path: "/reception/list",
         nama: "listReception",
         component: ListReception
+      },
+      {
+        path: "/reception/add",
+        name: "addReception",
+        component: AddReception
       }
     ],
   },

@@ -5,7 +5,7 @@
         </div>
         <div class="col-6">
           <div class="d-flex justify-content-end">
-            <RouterLink to="/order/add" class="btn btn-primary">Add reception</RouterLink>
+            <RouterLink to="/reception/add" class="btn btn-primary">Add reception</RouterLink>
           </div>
         </div>
       </div>
