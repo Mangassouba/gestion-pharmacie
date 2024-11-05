@@ -14,6 +14,7 @@ import ListReception from "../views/receptions/listReception.vue";
 import AddReception from "../views/receptions/addReception.vue";
 import ListSupplier from "../views/suppliers/listSupplier.vue";
 import AddSupplier from "../views/suppliers/addSupplier.vue";
+import EditSupplier from "../views/suppliers/editSupplier.vue";
 
 const routes = [
   {
@@ -90,6 +91,11 @@ const routes = [
         path: "/supplier/add",
         name: "addSupplier",
         component: AddSupplier
+      },
+      {
+        path: "/supplier/edit/:id",
+        name: "editSupplier",
+        component: EditSupplier
       }
     ],
   },
