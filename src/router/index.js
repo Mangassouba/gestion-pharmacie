@@ -21,6 +21,7 @@ import ListBatch from "../views/batches/listBatch.vue";
 import AddBatch from "../views/batches/addBatch.vue";
 import EditBatch from "../views/batches/editBatch.vue";
 import ListUser from "../views/users/listUser.vue";
+import AddUser from "../views/users/addUser.vue";
 
 const routes = [
   {
@@ -132,6 +133,11 @@ const routes = [
         path: "/user/list",
         name: "listUser",
         component: ListUser
+      },
+      {
+        path: "/user/add",
+        name: "addUser",
+        component: AddUser
       },
     ],
   },

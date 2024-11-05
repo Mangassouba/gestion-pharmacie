@@ -6,7 +6,7 @@
         </div>
         <div class="col-6">
           <div class="d-flex justify-content-end">
-            <RouterLink to="/customer/add" class="btn btn-primary">Add user</RouterLink>
+            <RouterLink to="/user/add" class="btn btn-primary">Add user</RouterLink>
           </div>
         </div>
       </div>
