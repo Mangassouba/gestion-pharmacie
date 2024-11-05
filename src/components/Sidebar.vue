@@ -23,6 +23,11 @@
     </RouterLink>
   </li>
   <li class="nav-item">
+    <RouterLink to="/sale/list" class="nav-link text-white">
+     Sale
+    </RouterLink>
+  </li>
+  <li class="nav-item">
     <RouterLink to="/customer/list" class="nav-link text-white">
       <i class="fas fa-user"></i> Customer
     </RouterLink>
