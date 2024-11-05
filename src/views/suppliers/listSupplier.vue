@@ -1,12 +1,12 @@
 <template>
     <div class="container mt-4">
       <div class="row d-flex mt-4">
-        <div class="col-6">
+        <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search" />
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <div class="d-flex justify-content-end">
-            <RouterLink to="/customer/add" class="btn btn-primary">Add supplier</RouterLink>
+            <RouterLink to="/supplier/add" class="btn btn-primary">Add supplier</RouterLink>
           </div>
         </div>
       </div>
