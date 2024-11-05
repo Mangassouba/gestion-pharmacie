@@ -6,7 +6,7 @@ b<template>
         </div>
         <div class="col-6">
           <div class="d-flex justify-content-end">
-            <RouterLink to="/customer/add" class="btn btn-primary">Add Batch</RouterLink>
+            <RouterLink to="/batch/add" class="btn btn-primary">Add Batch</RouterLink>
           </div>
         </div>
       </div>
