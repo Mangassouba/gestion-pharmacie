@@ -33,7 +33,7 @@ export const useBatcheStore = defineStore('batch', {
     },
     
   getbatchById(batchId) {
-    return this.batchs.find(p => p.id === batchId);
+    return this.batches.find(p => p.id === batchId);
  },
     async addbatch(batchData) {
       // const authStore = useAuthStore();

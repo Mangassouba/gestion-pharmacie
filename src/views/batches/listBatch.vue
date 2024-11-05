@@ -2,7 +2,7 @@ b<template>
     <div class="container mt-4">
       <div class="row d-flex mt-4">
         <div class="col-6">
-          <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
+          <input type="search" v-model="searchQuery" class="form-control" placeholder="Search number" />
         </div>
         <div class="col-6">
           <div class="d-flex justify-content-end">
@@ -81,7 +81,7 @@ b<template>
                   />
                 </svg>
               </button>
-              <!-- <router-link :to="{ name: 'editbatch', params: { id: batch.id }}"
+              <router-link :to="{ name: 'editBatch', params: { id: batch.id }}"
                 class="btn btn-warning btn-sm me-2" 
               >
                 <svg
@@ -100,7 +100,7 @@ b<template>
                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
                   />
                 </svg>
-              </router-link> -->
+              </router-link>
               <button
                 class="btn btn-info btn-sm me-2" @click="openModal(batch)"
               >
