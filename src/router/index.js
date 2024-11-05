@@ -22,6 +22,7 @@ import AddBatch from "../views/batches/addBatch.vue";
 import EditBatch from "../views/batches/editBatch.vue";
 import ListUser from "../views/users/listUser.vue";
 import AddUser from "../views/users/addUser.vue";
+import EditUser from "../views/users/editUser.vue";
 
 const routes = [
   {
@@ -138,6 +139,11 @@ const routes = [
         path: "/user/add",
         name: "addUser",
         component: AddUser
+      },
+      {
+        path: "/user/edit/:id",
+        name: "editUser",
+        component: EditUser
       },
     ],
   },
