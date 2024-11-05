@@ -16,6 +16,7 @@ import ListSupplier from "../views/suppliers/listSupplier.vue";
 import AddSupplier from "../views/suppliers/addSupplier.vue";
 import EditSupplier from "../views/suppliers/editSupplier.vue";
 import ListSale from "../views/sales/listSale.vue";
+import AddSale from "../views/sales/addSale.vue";
 
 const routes = [
   {
@@ -102,7 +103,12 @@ const routes = [
         path: "/sale/list",
         name: "listSale",
         component: ListSale
-      }
+      },
+      {
+        path: "/sale/add",
+        name: "addSale",
+        component: AddSale
+      },
     ],
   },
 ];

@@ -35,6 +35,8 @@ export const useSaleStore = defineStore("sale", {
       return this.sales.find((p) => p.id === saleId);
     },
     async addSale(saleData) {
+        console.log("donneeeeee",saleData);
+        
       try {
         const response = await axios.post(
           "http://localhost:3000/sale",
