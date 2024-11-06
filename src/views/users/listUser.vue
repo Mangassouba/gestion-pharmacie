@@ -1,10 +1,11 @@
 <template>
     <div class="container mt-4">
+      <h2 class="">Users Management</h2>
       <div class="row d-flex mt-4">
-        <div class="col-6">
+        <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search name" />
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <div class="d-flex justify-content-end">
             <RouterLink to="/user/add" class="btn btn-primary">Add user</RouterLink>
           </div>
