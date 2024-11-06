@@ -1,10 +1,11 @@
 <template>
   <div class="container mt-4">
+    <h1 class="">Products Management</h1>
     <div class="row d-flex mt-4">
-      <div class="col-6">
-        <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
+      <div class="col-3">
+        <input type="search" v-model="searchQuery" class="form-control" placeholder="Search by name or barcode" />
       </div>
-      <div class="col-6">
+      <div class="col-9">
         <div class="d-flex justify-content-end">
           <RouterLink to="/stock/add" class="btn btn-primary">Add</RouterLink>
         </div>
