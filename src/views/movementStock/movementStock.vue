@@ -1,14 +1,23 @@
 <template>
     <div class="container mt-4">
+      <h1 class="">List of movements</h1>
       <div class="row d-flex mt-4">
         <div class="col-3">
-          <input
-            type="search"
-            v-model="searchQuery"
-            class="form-control"
-            placeholder="Search"
-          />
-        </div>
+  <input
+    type="search"
+    v-model="searchQuery"
+    class="form-control"
+    placeholder="Search by type or product name"
+  />
+</div>
+<div class="col-3">
+  <input
+    type="date"
+    v-model="searchDate"
+    class="form-control"
+    placeholder="Search by date"
+  />
+</div>
         <div class="col-6"></div>
       </div>
   
@@ -26,7 +35,7 @@
           <tr v-for="(movement, index) in paginatedmovement" :key="movement.id">
             <td>{{ movement.id }}</td>
             <td>{{ movement.quantity }}</td>
-            <td>{{ movement.movement_date }}</td>
+            <td>{{ formatDate(movement.movement_date) }}</td>
             <td>{{ movement.type }}</td>
             <td>{{ getProductName(movement.productId) }}</td>
           </tr>
@@ -63,11 +72,13 @@
   import { RouterView } from "vue-router";
   import { usemovementStore } from "../../stores/movementStore";
   import { useProductStore } from "../../stores/productStore"; // Import product store
+import moment from "moment";
   
   const movementStore = usemovementStore();
   const productStore = useProductStore(); // Create reference to product store
   
   const searchQuery = ref("");
+  const searchDate = ref(null);
   const currentPage = ref(1);
   const itemsPerPage = 10;
   
@@ -85,15 +96,23 @@
   
   // Filter movements based on search query, considering both movement type and product name
   const filterMovement = computed(() => {
-    return movementStore.movements.filter((movement) => {
-      const productName = getProductName(movement.productId).toLowerCase();
-      return (
-        productName.includes(searchQuery.value.toLowerCase()) ||
-        movement.type.toLowerCase().includes(searchQuery.value.toLowerCase())
-      );
-    });
+  return movementStore.movements.filter((movement) => {
+    const productName = getProductName(movement.productId).toLowerCase();
+    const matchesQuery =
+      productName.includes(searchQuery.value.toLowerCase()) ||
+      movement.type.toLowerCase().includes(searchQuery.value.toLowerCase());
+
+    // Check if the movement date matches the search date if a date is provided
+    const matchesDate =
+      !searchDate.value || formatDate(movement.movement_date) === moment(searchDate.value).format("DD/MM/YYYY");
+
+    return matchesQuery && matchesDate;
   });
+});
   
+  const formatDate = (date) => {
+    return moment(date).format("DD/MM/YYYY");
+  };
   // Paginate filtered movements
   const paginatedmovement = computed(() => {
     const start = (currentPage.value - 1) * itemsPerPage;
