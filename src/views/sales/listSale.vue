@@ -1,5 +1,6 @@
 <template>
     <div class="container mt-4">
+      <h2 class="">Sales Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-6">
         </div>
@@ -14,7 +15,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="detailsModalLabel">Order Details</h5>
+          <h5 class="modal-title" id="detailsModalLabel">Sale Details</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -25,7 +26,7 @@
             </div>
             <div class="mb-3">
               <label for="customerId" class="form-label">Customer</label>
-              <input type="number" class="form-control" id="customerId" :value="selectedSales?.customerId" disabled>
+              <input type="text" class="form-control" id="customerId" :value="getCustomerName(selectedSales?.customerId)" disabled>
             </div>
             <!-- Additional order fields if needed -->
 
@@ -34,7 +35,7 @@
               <h6 class="mt-4">Order Items:</h6>
               <div v-for="(detail, index) in selectedSales.details" :key="index" class="mb-3">
                 <label :for="'detailProductId' + index" class="form-label">Product ID</label>
-                <input type="number" class="form-control mb-1" :id="'detailProductId' + index" :value="detail.productId" disabled>
+                <input type="text" class="form-control mb-1" :id="'detailProductId' + index" :value="getProductName(detail.productId)" disabled>
                 
                 <label :for="'detailQuantity' + index" class="form-label">Quantity</label>
                 <input type="number" class="form-control mb-1" :id="'detailQuantity' + index" :value="detail.quantity" disabled>
@@ -65,7 +66,7 @@
           <tr v-for="(sale, index) in paginatedSales" :key="sale.id">
             <td>{{ sale.id }}</td>
             <td>{{ formatDate(sale.sale_date) }}</td>
-            <td>{{ sale.customerId }}</td>
+            <td>{{ getCustomerName(sale.customerId) }}</td>
             
             <td class="text-center">
               <button
@@ -152,15 +153,23 @@
   import { RouterView } from 'vue-router';
 import { useSaleStore } from '../../stores/saleStore';
 import moment from 'moment';
+import { useProductStore } from '../../stores/productStore';
+import { useCustomerStore } from '../../stores/customerStore';
   
   const store = useSaleStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
   const itemsPerPage = 10;
+
+  
+  const productStore = useProductStore();
+  const customerStore = useCustomerStore();
   
   // Fetch products on mount
   onMounted(async () => {
     await store.fetchSales();
+    await customerStore.fetchcustomers();
+    await productStore.fetchProducts();
   });
   
   const selectedSales = ref(null);
@@ -171,6 +180,16 @@ import moment from 'moment';
     const modalElement = document.getElementById('detailsModal');
     const modal = new Modal(modalElement);  // Create a new Modal instance
     modal.show();
+  };
+
+  const getProductName = (productId) => {
+    const product = productStore.products.find((p) => p.id === productId);
+    return product ? product.name : 'Unknown Product';
+  };
+
+  const getCustomerName = (customerId) => {
+    const customer = customerStore.customers.find((c) => c.id === customerId);
+    return customer ? `${customer.firstName} ${customer.lastName}` : 'Unknown';
   };
   
   // Computed property for filtered products
