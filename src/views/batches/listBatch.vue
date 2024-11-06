@@ -1,10 +1,11 @@
 b<template>
     <div class="container mt-4">
+      <h2 class="">Batches Management</h2>
       <div class="row d-flex mt-4">
-        <div class="col-6">
+        <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search number" />
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <div class="d-flex justify-content-end">
             <RouterLink to="/batch/add" class="btn btn-primary">Add Batch</RouterLink>
           </div>
@@ -22,7 +23,7 @@ b<template>
               <form>
                 <div class="mb-3">
                   <label for="number" class="form-label">Number</label>
-                  <input type="text" class="form-control" id="number" :value="formatDate(selectedBatch?.number)" disabled>
+                  <input type="text" class="form-control" id="number" :value="selectedBatch?.number" disabled>
                 </div>
                 <div class="mb-3">
                   <label for="quantity" class="form-label">Quantity</label>
@@ -30,11 +31,11 @@ b<template>
                 </div>
                 <div class="mb-3">
                   <label for="expiration_date" class="form-label">Expiration Date</label>
-                  <input type="text" class="form-control" id="expiration_date" :value="selectedBatch?.expiration_date" disabled>
+                  <input type="text" class="form-control" id="expiration_date" :value="formatDate(selectedBatch?.expiration_date)" disabled>
                 </div>
                 <div class="mb-3">
                   <label for="product" class="form-label">Product</label>
-                  <input type="text" class="form-control" id="product" :value="selectedBatch?.productId" disabled>
+                  <input type="text" class="form-control" id="product" :value="getProductName(selectedBatch?.productId)" disabled>
                 </div>
                 <!-- Additional fields as needed -->
               </form>
@@ -63,7 +64,7 @@ b<template>
             <td>{{ batch.number }}</td>
             <td>{{ batch.quantity }}</td>
             <td>{{ formatDate(batch.expiration_date ) }}</td>
-            <td>{{ batch.productId }}</td>
+            <td>{{ getProductName(batch.productId) }}</td>
             <td class="text-center">
               <button
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(batch.id)"
@@ -149,8 +150,11 @@ b<template>
   import { RouterView } from 'vue-router';
 import { useBatcheStore } from '../../stores/batchStore';
 import moment from 'moment';
+import { useProductStore } from '../../stores/productStore';
   
   const store = useBatcheStore();
+  const productStore = useProductStore();
+
   const searchQuery = ref('');
   const currentPage = ref(1);
   const itemsPerPage = 10;
@@ -158,6 +162,8 @@ import moment from 'moment';
   // Fetch batchs on mount
   onMounted(async () => {
     await store.fetchBatch();
+    await productStore.fetchProducts();
+
   });
   
   const selectedBatch = ref(null);
@@ -168,6 +174,10 @@ import moment from 'moment';
     modal.show();
   };
   
+  const getProductName = (productId) => {
+    const product = productStore.products.find((p) => p.id === productId);
+    return product ? product.name : 'Unknown Product';
+  };
   const filteredbatches = computed(() => {
     return store.batches.filter(batch =>
     batch.number.toLowerCase().includes(searchQuery.value.toLowerCase())
