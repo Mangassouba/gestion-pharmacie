@@ -3,7 +3,7 @@
       <h2 class="">Customer Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-6">
-          <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
+          <input type="search" v-model="searchQuery" class="form-control" placeholder="Search by name" />
         </div>
         <div class="col-6">
           <div class="d-flex justify-content-end">
