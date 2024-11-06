@@ -1,5 +1,6 @@
 <template>
     <div class="container mt-4">
+      <h1 class="">Suppliers Management</h1>
       <div class="row d-flex mt-4">
         <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search" />
