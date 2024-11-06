@@ -1,5 +1,6 @@
 <template>
     <div class="container mt-4">
+      <h2 class="">Customer Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-6">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
