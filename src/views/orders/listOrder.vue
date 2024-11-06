@@ -1,10 +1,11 @@
 <template>
     <div class="container mt-4">
+      <h1 class="">Orders Management</h1>
       <div class="row d-flex mt-4">
-        <div class="col-6">
-          <input type="search" v-model="searchQuery" class="form-control" placeholder="Recherche par nom ou code-barres" />
+        <div class="col-3">
+          <input type="search" v-model="searchQuery" class="form-control" placeholder="Search" />
         </div>
-        <div class="col-6">
+        <div class="col-9">
           <div class="d-flex justify-content-end">
             <RouterLink to="/order/add" class="btn btn-primary">Add orders</RouterLink>
           </div>
@@ -12,61 +13,59 @@
       </div>
   
       <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="detailsModalLabel">Order Details</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="orderDate" class="form-label">Date</label>
-              <input type="date" class="form-control" id="orderDate" :value="selectedOrder?.order_date" disabled>
-            </div>
-            <div class="mb-3">
-              <label for="customerId" class="form-label">Customer</label>
-              <input type="number" class="form-control" id="customerId" :value="selectedOrder?.customerId" disabled>
-            </div>
-            <!-- Additional order fields if needed -->
-
-            <!-- Display each detail in the order -->
-            <div v-if="selectedOrder?.details && selectedOrder.details.length">
-              <h6 class="mt-4">Order Items:</h6>
-              <div v-for="(detail, index) in selectedOrder.details" :key="index" class="mb-3">
-                <label :for="'detailProductId' + index" class="form-label">Product ID</label>
-                <input type="number" class="form-control mb-1" :id="'detailProductId' + index" :value="detail.productId" disabled>
-                
-                <label :for="'detailQuantity' + index" class="form-label">Quantity</label>
-                <input type="number" class="form-control mb-1" :id="'detailQuantity' + index" :value="detail.quantity" disabled>
-
-                <label :for="'detailPrice' + index" class="form-label">Price</label>
-                <input type="number" class="form-control" :id="'detailPrice' + index" :value="detail.price" disabled>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="detailsModalLabel">Order Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="orderDate" class="form-label">Date</label>
+                <input type="text" class="form-control" id="orderDate" :value="formatDate(selectedOrder?.order_date)" disabled>
               </div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <div class="mb-3">
+                <label for="customerId" class="form-label">Customer</label>
+                <input type="text" class="form-control" id="customerId" :value="getCustomerName(selectedOrder?.customerId)" disabled>
+              </div>
+
+              <div v-if="selectedOrder?.details && selectedOrder.details.length">
+                <h6 class="mt-4">Order Items:</h6>
+                <div v-for="(detail, index) in selectedOrder.details" :key="index" class="mb-3">
+                  <label :for="'detailProductId' + index" class="form-label">Product</label>
+                  <input type="text" class="form-control mb-1" :id="'detailProductId' + index" :value="getProductName(detail.productId)" disabled>
+
+                  <label :for="'detailQuantity' + index" class="form-label">Quantity</label>
+                  <input type="number" class="form-control mb-1" :id="'detailQuantity' + index" :value="detail.quantity" disabled>
+
+                  <label :for="'detailPrice' + index" class="form-label">Price</label>
+                  <input type="number" class="form-control" :id="'detailPrice' + index" :value="detail.price" disabled>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-      <table class="table table-striped table-bordered mt-4 mb-4">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Date</th>
-            <th>Customer</th>
-            <th class="text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(order, index) in paginatedOrders" :key="order.id">
-            <td>{{ order.id }}</td>
-            <td>{{ order.order_date }}</td>
-            <td>{{ order.customerId }}</td>
+
+    <table class="table table-striped table-bordered mt-4 mb-4">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Date</th>
+          <th>Customer</th>
+          <th class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(order, index) in filteredOrders" :key="order.id">
+          <td>{{ order.id }}</td>
+          <td>{{ formatDate(order.order_date) }}</td>
+          <td>{{ getCustomerName(order.customerId) }}</td>
             
             <td class="text-center">
               <button
@@ -150,71 +149,72 @@
   <script setup>
   import { ref, computed, onMounted } from 'vue';
   import { Modal } from 'bootstrap';
-  import { RouterView } from 'vue-router';
-import { useOrderStore } from '../../stores/orderStore';
+  import { RouterLink } from 'vue-router';
+  import { useOrderStore } from '../../stores/orderStore';
+  import { useCustomerStore } from '../../stores/customerStore';
+  import moment from 'moment';
+  import { useProductStore } from '../../stores/productStore';
   
   const store = useOrderStore();
+  const productStore = useProductStore();
+  const customerStore = useCustomerStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
   const itemsPerPage = 10;
+  const selectedOrder = ref(null);
   
-  // Fetch products on mount
   onMounted(async () => {
     await store.fetchOrders();
+    await customerStore.fetchcustomers();
+    await productStore.fetchProducts();
   });
   
-  const selectedOrder = ref(null);
+  const getProductName = (productId) => {
+    const product = productStore.products.find((p) => p.id === productId);
+    return product ? product.name : 'Unknown Product';
+  };
+  
   const openModal = (order) => {
     selectedOrder.value = order;
-    console.log(selectedOrder.value.details);
-    
     const modalElement = document.getElementById('detailsModal');
-    const modal = new Modal(modalElement);  // Create a new Modal instance
+    const modal = new Modal(modalElement);
     modal.show();
   };
   
-  // Computed property for filtered products
-//   const filteredProducts = computed(() => {
-//     return store.orders.filter(product =>
-//       product.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-//       product.barcode.includes(searchQuery.value)
-//     );
-//   });
-  
-  // Computed property for paginated products
-  const paginatedOrders = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return store.orders.slice(start, end);
+  const filteredOrders = computed(() => {
+    return store.orders.filter(order => 
+      order.customerId && getCustomerName(order.customerId).toLowerCase().includes(searchQuery.value.toLowerCase())
+    ).slice((currentPage.value - 1) * itemsPerPage, currentPage.value * itemsPerPage);
   });
   
-  // Total pages for pagination
   const totalPages = computed(() => {
     return Math.ceil(store.orders.length / itemsPerPage);
   });
   
-  // Navigation for pagination
   const nextPage = () => {
     if (currentPage.value < totalPages.value) {
       currentPage.value++;
     }
   };
+  
   const prevPage = () => {
     if (currentPage.value > 1) {
       currentPage.value--;
     }
   };
   
-  // function editProduct(product) {
-  //   console.log(product);
-    
-  //   router.push({ name: "editProduct", params: { id: product.id } });
-  // }
+  const getCustomerName = (customerId) => {
+    const customer = customerStore.customers.find((c) => c.id === customerId);
+    return customer ? `${customer.firstName} ${customer.lastName}` : 'Unknown';
+  };
   
+  const formatDate = (date) => {
+    return moment(date).format("DD/MM/YYYY");
+  };
   
-  const handleDelete = async (id) => {
-    if (confirm("Are you sure you want to delete this product?")) {
-      await store.deleteorder(id);
+  const handleDelete = async (orderId) => {
+    if (confirm("Are you sure you want to delete this order?")) {
+      await store.deleteorder(orderId);
     }
   };
   </script>
