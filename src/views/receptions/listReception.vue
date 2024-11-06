@@ -1,5 +1,6 @@
 <template>
   <div class="container mt-4">
+    <h2 class="">Receptions Management</h2>
     <div class="row d-flex mt-4">
       <div class="col-6"></div>
       <div class="col-6">
@@ -59,10 +60,10 @@
                     >Product ID</label
                   >
                   <input
-                    type="number"
+                    type="text"
                     class="form-control mb-1"
                     :id="'detailProductId' + index"
-                    :value="detail.productId"
+                    :value="getProductName(detail.productId)"
                     disabled
                   />
 
@@ -188,14 +189,17 @@ import { ref, computed, onMounted } from "vue";
 import { Modal } from "bootstrap";
 import { RouterView } from "vue-router";
 import { useReceptionStore } from "../../stores/receptionStore";
+import { useProductStore } from "../../stores/productStore";
 import moment from "moment";
 
 const store = useReceptionStore();
+const productStore = useProductStore();
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
 onMounted(async () => {
   await store.fetchreceptions();
+  await productStore.fetchProducts();
 });
 
 const selectedReception = ref(null);
@@ -206,7 +210,11 @@ const openModal = (order) => {
   modal.show();
 };
 
-// Pagination sans filtrage
+const getProductName = (productId) => {
+  const product = productStore.products.find((p) => p.id === productId);
+  return product ? product.name : "Unknown Product";
+};
+
 const paginatedFilteredReceptions = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
