@@ -92,13 +92,9 @@
         </RouterLink>
       </li>
       <li class="nav-item">
-        <RouterLink
-          to="/"
-          class="nav-link text-white"
-          :class="{ active: isActiveRoute('/') }"
-        >
-          <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Deconnexion</span>
-        </RouterLink>
+        <a href="#" class="nav-link text-white" @click="handleLogout">
+          <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Déconnexion</span>
+        </a>
       </li>
     </ul>
   </div>
@@ -106,12 +102,22 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView, useRoute } from 'vue-router';
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from '../stores/authStore';
 
+const authStore = useAuthStore();
+const router = useRouter();
 const route = useRoute();
 
 const isActiveRoute = (path) => {
   return route.path === path;
+};
+
+// const isActiveRoute = (path) => route.path === path;
+
+const handleLogout = () => {
+  authStore.logout();
+  router.push('/'); // Redirige vers la page de connexion après la déconnexion
 };
 </script>
 

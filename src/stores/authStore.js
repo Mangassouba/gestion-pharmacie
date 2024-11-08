@@ -23,13 +23,13 @@ export const useAuthStore = defineStore("authStore", {
         console.log("TOOOOOOO; :", userToken);
         
 
-        // const userResponse = await axios.get("http://localhost:3000/api/me", {
-        //   headers: {
-        //     Authorization: `Bearer ${this.token}`
-        //   }
-        // });
+        const userResponse = await axios.get("http://localhost:3000/me", {
+          headers: {
+            Authorization: `Bearer ${this.token}`
+          }
+        });
 
-        // this.user = userResponse.data.user;
+        this.user = userResponse.data.user;
       } catch (error) {
         console.error("Erreur lors de la connexion :", error.message);
         throw error;
