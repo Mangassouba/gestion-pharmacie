@@ -75,6 +75,15 @@
       </li>
       <li class="nav-item">
         <RouterLink
+          to="/inventor/list"
+          class="nav-link text-white"
+          :class="{ active: isActiveRoute('/inventor/list') }"
+        >
+          <i class="fas fa-boxes"></i> <span class="menu-text">Inventor</span>
+        </RouterLink>
+      </li>
+      <li class="nav-item">
+        <RouterLink
           to="/movement/list"
           class="nav-link text-white"
           :class="{ active: isActiveRoute('/movement/list') }"
