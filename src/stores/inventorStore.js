@@ -33,13 +33,13 @@ export const useinventoriesStore = defineStore('inventories', {
     },
     
   getInventoriesById(inventoriesId) {
-    return this.inventoriess.find(p => p.id === inventoriesId);
+    return this.inventories.find(p => p.id === inventoriesId);
  },
     async addInventories(inventoriesData) {
       // const authStore = useAuthStore();
 
       try {
-        const response = await axios.post('http://localhost:3000/inventoriess/', inventoriesData, {
+        const response = await axios.post('http://localhost:3000/inventories/', inventoriesData, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
@@ -60,21 +60,21 @@ export const useinventoriesStore = defineStore('inventories', {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
         });
-        const index = this.inventoriess.findIndex(inventories => inventories.id === inventoriesId);
+        const index = this.inventories.findIndex(inventories => inventories.id === inventoriesId);
         if (index !== -1) this.inventoriess[index] = response.data;
       } catch (error) {
         console.error('Erreur lors de la mise à jour du produit:', error);
       }
     },
-    async deleteinventories(inventoriesId) {
+    async deleteInventories(inventoriesId) {
     //   const authStore = useAuthStore();
       try {
-        await axios.delete(`http://localhost:3000/inventoriess/${inventoriesId}`, {
+        await axios.delete(`http://localhost:3000/inventories/${inventoriesId}`, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
         });
-        this.inventoriess = this.inventoriess.filter(inventories => inventories.id !== inventoriesId);
+        this.inventories = this.inventories.filter(inventories => inventories.id !== inventoriesId);
       } catch (error) {
         console.error('Erreur lors de la suppression du produit:', error);
       }

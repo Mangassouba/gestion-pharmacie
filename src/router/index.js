@@ -25,6 +25,7 @@ import AddUser from "../views/users/addUser.vue";
 import EditUser from "../views/users/editUser.vue";
 import MovementStock from "../views/movementStock/movementStock.vue";
 import ListInvetor from "../views/inventors/listInvetor.vue";
+import AddInventor from "../views/inventors/addInventor.vue";
 // import ListIventor from "../views/inventors/listIventor.vue";
 
 const routes = [
@@ -157,6 +158,11 @@ const routes = [
         path: "/inventor/list",
         name: "inventor",
         component: ListInvetor
+      },
+      {
+        path: "/inventor/add",
+        name: "addInventor",
+        component: AddInventor
       },
     ],
   },
