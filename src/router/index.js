@@ -26,6 +26,9 @@ import EditUser from "../views/users/editUser.vue";
 import MovementStock from "../views/movementStock/movementStock.vue";
 import ListInvetor from "../views/inventors/listInvetor.vue";
 import AddInventor from "../views/inventors/addInventor.vue";
+
+import ForgotPassword from '../components/ForgotPassword.vue'
+import ResetPassword from '../components/ResetPassword.vue'
 // import ListIventor from "../views/inventors/listIventor.vue";
 
 const routes = [
@@ -34,6 +37,16 @@ const routes = [
     name: "auth",
     component: Auth,
   },
+  {
+    path: "/forgot-password",
+    name: 'ForgotPassword',
+    component: ForgotPassword,
+},
+{
+    path: "/reset-password",
+    name: 'ResetPassword',
+    component: ResetPassword,
+},
   {
     path: "/dashboard",
     name: "dashboard",

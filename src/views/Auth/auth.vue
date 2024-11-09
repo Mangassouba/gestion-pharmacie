@@ -23,6 +23,9 @@
         />
       </div>
       <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+      <p class="forgot-password">
+        <router-link to="/forgot-password">forgot-password</router-link>
+      </p>
     </form>
     <div v-if="errorMessage" class="alert alert-danger mt-3">
       {{ errorMessage }}
