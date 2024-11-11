@@ -76,10 +76,12 @@
 import { ref, onMounted } from 'vue';
 import { useReceptionStore } from '../../stores/receptionStore';
 import { useProductStore } from '../../stores/productStore';
+import { useRouter } from 'vue-router';
 import moment from 'moment';
 
 const receptionStore = useReceptionStore();
 const productStore = useProductStore();
+const router = useRouter();
 
 const reception_date = ref('');
 const receptionDetails = ref([{ productId: '', quantity: 1, price: 0 }]);
@@ -98,18 +100,24 @@ const addDetail = () => {
   receptionDetails.value.push({ productId: '', quantity: 1, price: 0 });
 };
 
-// Remove a reception detail line
 const removeDetail = (index) => {
   receptionDetails.value.splice(index, 1);
 };
 
-// Submit the reception
 const handleSubmit = async () => {
   const newReception = {
     reception_date: moment(reception_date.value).toISOString(),
     details: JSON.parse(JSON.stringify(receptionDetails.value))
   };
-  await receptionStore.addreception(newReception);
+
+  try {
+    await receptionStore.addreception(newReception);
+    reception_date.value = '';
+    receptionDetails.value = [{ productId: '', quantity: 1, price: 0 }];
+    router.push('/reception/list');
+  } catch (error) {
+    console.error("Failed to add reception:", error.message);
+  }
 };
 </script>
 
