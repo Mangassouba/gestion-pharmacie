@@ -66,7 +66,7 @@ const handleLogin = async () => {
     await auth.login(email.value, password.value)
     
 
-    router.push("/dashboard");
+    router.push("/main");
   } catch (error) {
     errorMessage.value = "Erreur de connexion. Veuillez réessayer.";
   }
