@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h1 class="">Suppliers Management</h1>
+      <h2 class="">Suppliers Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search" />
@@ -143,7 +143,9 @@
   import { Modal } from 'bootstrap';
   import { RouterView } from 'vue-router';
 import { useSupplierStore } from '../../stores/supplierStore';
-  
+import { useToast } from 'vue-toastification';
+
+const toast = useToast();  
   const store = useSupplierStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
@@ -192,6 +194,7 @@ import { useSupplierStore } from '../../stores/supplierStore';
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {
       await store.deleteSupplier(id);
+      toast.success("Delete supplier successfully")
     }
   };
   </script>

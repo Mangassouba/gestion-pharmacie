@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import { useToast } from 'vue-toastification';
 import { useAuthStore } from './authStore';
 
+const toast = useToast();
 export const useCustomerStore = defineStore('customer', {
   state: () => ({
     customers: [],
@@ -67,16 +69,22 @@ export const useCustomerStore = defineStore('customer', {
       }
     },
     async deletecustomer(customerId) {
-    //   const authStore = useAuthStore();
       try {
         await axios.delete(`http://localhost:3000/customers/${customerId}`, {
           headers: {
             Authorization: `Bearer ${this.tokenUserActif}`,
           },
         });
+    
+        // Met à jour la liste des clients localement
         this.customers = this.customers.filter(customer => customer.id !== customerId);
       } catch (error) {
-        console.error('Erreur lors de la suppression du produit:', error);
+        // Vérifie si une réponse du backend est présente
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warning(error.response.data.message); // Affiche le message du backend dans une alerte
+        } else {
+          console.error('Erreur lors de la suppression du client:', error);
+        }
       }
     },
   },

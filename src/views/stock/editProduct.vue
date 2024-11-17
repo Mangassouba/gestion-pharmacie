@@ -109,7 +109,9 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '../../stores/productStore';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const store = useProductStore();
@@ -167,7 +169,8 @@ async function updateProduct() {
       prescription_req: prescription_req.value,
       barcode: barcode.value,
     });
-    router.push('/stock/addProduit');
+    toast.success("Edit successfully")
+    router.push('/stock/list');
   } catch (error) {
     console.error('Failed to update product:', error);
   }

@@ -66,7 +66,9 @@
   import { useRouter } from "vue-router";
   import { useBatcheStore } from "../../stores/batchStore";
   import { useProductStore } from "../../stores/productStore";
+import { useToast } from "vue-toastification";
   
+  const toast = useToast();
   const number = ref("");
   const quantity = ref("");
   const expiration_date = ref("");
@@ -101,7 +103,8 @@
       await batchStore.addbatch(batchData);
       console.log("Batch added successfully:", batchData);
       resetForm();
-      router.push("/batch/list"); // Redirect to batch list after submission
+      router.push("/batch/list");
+      toast.success("Batch add successfully")
     } catch (error) {
       console.error("Failed to add batch:", error);
     }

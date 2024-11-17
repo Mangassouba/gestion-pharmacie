@@ -149,7 +149,9 @@
   import { Modal } from 'bootstrap';
   import { RouterView } from 'vue-router';
 import { useUserStore } from '../../stores/useStore';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const store = useUserStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
@@ -198,6 +200,7 @@ import { useUserStore } from '../../stores/useStore';
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {
       await store.deleteUser(id);
+      toast.success("User deleted successfully")
     }
   };
   </script>

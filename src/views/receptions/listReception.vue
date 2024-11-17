@@ -191,7 +191,9 @@ import { RouterView } from "vue-router";
 import { useReceptionStore } from "../../stores/receptionStore";
 import { useProductStore } from "../../stores/productStore";
 import moment from "moment";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const store = useReceptionStore();
 const productStore = useProductStore();
 const currentPage = ref(1);
@@ -243,6 +245,7 @@ const formatDate = (date) => {
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this reception?")) {
     await store.deletereception(id);
+    toast.success("Receipt delete successfully")
   }
 };
 </script>

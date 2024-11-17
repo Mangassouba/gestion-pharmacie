@@ -78,7 +78,9 @@
   import { ref } from "vue";
   import { useRouter } from "vue-router";
   import { useUserStore } from "../../stores/useStore";
+import { useToast } from "vue-toastification";
   
+  const toast = useToast();
   const name = ref("");
   const email = ref("");
   const password = ref("");
@@ -101,7 +103,8 @@
       await userStore.addUser(userData);
       console.log("Customer added successfully:", userData);
       resetForm();
-      router.push("/user/list"); // Redirect to users list after submission
+      router.push("/user/list");
+      toast.success("User add successfully")
     } catch (error) {
       console.error("Failed to add customer:", error);
     }

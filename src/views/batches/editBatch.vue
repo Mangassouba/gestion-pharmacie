@@ -69,7 +69,9 @@
   import { useBatcheStore } from '../../stores/batchStore';
   import { useProductStore } from '../../stores/productStore';
 import moment from 'moment';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const route = useRoute();
   const router = useRouter();
   const batchStore = useBatcheStore();
@@ -117,7 +119,8 @@ import moment from 'moment';
         expiration_date: expiration_date.value,
         productId: productId.value,
       });
-      router.push('/batch/list'); // Redirect to batch list after updating
+      router.push('/batch/list');
+      toast.success("Batch edit successfully")
     } catch (error) {
       console.error('Failed to update batch:', error);
     }

@@ -93,7 +93,9 @@
   import moment from 'moment';
   import { useSaleStore } from '../../stores/saleStore';
   import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
   
+  const toast = useToast();
   const store = useSaleStore();
   const productStore = useProductStore();
   const customerStore = useCustomerStore();
@@ -138,6 +140,7 @@
     saleDetails.value = [{ productId: '', quantity: 1, price: 0 }];
     // Redirect to listSale page
     router.push({ name: 'listSale' });
+    toast.success("Sale add successfully")
   };
   </script>
   

@@ -155,7 +155,9 @@ import { useSaleStore } from '../../stores/saleStore';
 import moment from 'moment';
 import { useProductStore } from '../../stores/productStore';
 import { useCustomerStore } from '../../stores/customerStore';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const store = useSaleStore();
   const searchQuery = ref('');
   const currentPage = ref(1);
@@ -237,6 +239,7 @@ import { useCustomerStore } from '../../stores/customerStore';
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this product?")) {
       await store.deleteSale(id);
+      toast.success("Sale delete successfully")
     }
   };
   </script>

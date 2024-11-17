@@ -64,7 +64,9 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useCustomerStore } from '../../stores/customerStore';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const store = useCustomerStore();
@@ -96,7 +98,8 @@ async function updateCustomer() {
       address: address.value,
       phone: phone.value,
     });
-    router.push('/customer/list'); // Change the route to your customer list page
+    toast.success("Edit with success")
+    router.push('/customer/list');
   } catch (error) {
     console.error('Failed to update customer:', error);
   }

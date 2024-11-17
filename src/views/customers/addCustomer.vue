@@ -63,7 +63,9 @@
   import { ref } from "vue";
   import { useRouter } from "vue-router";
 import { useCustomerStore } from "../../stores/customerStore";
-  
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
   const firstName = ref("");
   const lastName = ref("");
   const address = ref("");
@@ -95,6 +97,7 @@ import { useCustomerStore } from "../../stores/customerStore";
     lastName.value = "";
     address.value = "";
     phone.value = "";
+    toast.success("Ajouter avec succé")
   }
   </script>
   

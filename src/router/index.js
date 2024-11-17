@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Auth from "../views/Auth/auth.vue";
 import Index from "../views/Dashboard/index.vue";
-import AddProduit from "../views/stock/ListProduct.vue";
+import ListProduit from "../views/stock/ListProduct.vue";
 import MainContent from "../components/MainContent.vue";
 import AddProduct from "../views/stock/addProduct.vue";
 import EditProduct from "../views/stock/editProduct.vue";
@@ -58,9 +58,9 @@ const routes = [
         component: MainContent,
       },
       {
-        path: "/stock/addProduit",
+        path: "/stock/list",
         name: "addProduit",
-        component: AddProduit,
+        component: ListProduit,
       },
       {
         path: "/stock/add",

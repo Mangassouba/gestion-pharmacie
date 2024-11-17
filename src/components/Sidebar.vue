@@ -12,9 +12,9 @@
       </li>
       <li class="nav-item">
         <RouterLink
-          to="/stock/addProduit"
+          to="/stock/list"
           class="nav-link text-white"
-          :class="{ active: isActiveRoute('/stock/addProduit') }"
+          :class="{ active: isActiveRoute('/stock/list') }"
         >
           <i class="fas fa-box"></i> <span class="menu-text">Product</span>
         </RouterLink>

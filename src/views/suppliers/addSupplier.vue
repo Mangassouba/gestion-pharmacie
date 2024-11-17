@@ -52,7 +52,9 @@
   import { ref } from "vue";
   import { useRouter } from "vue-router";
 import { useSupplierStore } from "../../stores/supplierStore";
+import { useToast } from "vue-toastification";
   
+const toast = useToast();
   const name = ref("");
   const address = ref("");
   const contact = ref("");
@@ -71,7 +73,8 @@ import { useSupplierStore } from "../../stores/supplierStore";
       await supplierStore.addSupplier(supplierData);
       console.log("Customer added successfully:", supplierData);
       resetForm();
-      router.push("/supplier/list"); // Redirect to customers list after submission
+      router.push("/supplier/list"); 
+      toast.success("Supplier add successfully")
     } catch (error) {
       console.error("Failed to add customer:", error);
     }

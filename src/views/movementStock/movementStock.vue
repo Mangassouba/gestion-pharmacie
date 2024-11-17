@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h1 class="">List of movements</h1>
+      <h2 class="">List of movements</h2>
       <div class="row d-flex mt-4">
         <div class="col-3">
   <input

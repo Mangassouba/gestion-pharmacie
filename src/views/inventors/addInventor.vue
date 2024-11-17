@@ -57,7 +57,9 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useProductStore } from "../../stores/productStore";
 import { useinventoriesStore } from "../../stores/inventorStore";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 const productStore = useProductStore();
 const supplierStore = useinventoriesStore();
 const router = useRouter();
@@ -84,7 +86,7 @@ async function handleSubmit() {
 
   try {
     await supplierStore.addInventories(supplierData);
-    console.log("Customer added successfully:", supplierData);
+    toast.success("Customer added successfully");
     resetForm();
     router.push("/inventor/list");
   } catch (error) {

@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h1 class="">Orders Management</h1>
+      <h2 class="">Orders Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-3">
           <input type="search" v-model="searchQuery" class="form-control" placeholder="Search" />
@@ -154,7 +154,9 @@
   import { useCustomerStore } from '../../stores/customerStore';
   import moment from 'moment';
   import { useProductStore } from '../../stores/productStore';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const store = useOrderStore();
   const productStore = useProductStore();
   const customerStore = useCustomerStore();
@@ -215,6 +217,7 @@
   const handleDelete = async (orderId) => {
     if (confirm("Are you sure you want to delete this order?")) {
       await store.deleteorder(orderId);
+      toast.success("Command delete successfully")
     }
   };
   </script>

@@ -1,13 +1,13 @@
 <template>
   <div class="container mt-4">
-    <h1 class="">Products Management</h1>
+    <h2 class="">Products Management</h2>
     <div class="row d-flex mt-4">
       <div class="col-3">
         <input type="search" v-model="searchQuery" class="form-control" placeholder="Search by name or barcode" />
       </div>
       <div class="col-9">
         <div class="d-flex justify-content-end">
-          <RouterLink to="/stock/add" class="btn btn-primary">Add</RouterLink>
+          <RouterLink to="/stock/add" class="btn btn-primary">Add Product</RouterLink>
         </div>
       </div>
     </div>
@@ -165,7 +165,9 @@ import { ref, computed, onMounted } from 'vue';
 import { useProductStore } from '../../stores/productStore';
 import { Modal } from 'bootstrap';
 import { RouterView } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const store = useProductStore();
 const searchQuery = ref('');
 const currentPage = ref(1);
@@ -226,6 +228,7 @@ const prevPage = () => {
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this product?")) {
     await store.deleteProduct(id);
+    toast.success("Delete product successfully")
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h1>Inventories Management</h1>
+      <h2>Inventories Management</h2>
       <div class="row d-flex mt-4">
         <div class="col-12">
           <div class="d-flex justify-content-end">
@@ -122,7 +122,9 @@ import { RouterView } from 'vue-router';
 import { useinventoriesStore } from '../../stores/inventorStore';
 import { useProductStore } from '../../stores/productStore';
 import moment from 'moment';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const store = useinventoriesStore();
 const productStore = useProductStore();
 const currentPage = ref(1);
@@ -173,6 +175,7 @@ const prevPage = () => {
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this supplier?")) {
     await store.deleteInventories(id);
+    toast.success("inventory delete successfully")
   }
 };
 </script>

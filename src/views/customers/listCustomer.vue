@@ -149,7 +149,9 @@
   import { Modal } from 'bootstrap';
   import { RouterView } from 'vue-router';
 import { useCustomerStore } from '../../stores/customerStore';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const store = useCustomerStore();
   const searchQuery = ref('');
   const currentPage = ref(1);

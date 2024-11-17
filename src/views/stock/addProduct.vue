@@ -106,10 +106,12 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { useProductStore } from '../../stores/productStore';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const name = ref('');
 const description = ref('');
 const stock = ref(0);
@@ -118,15 +120,9 @@ const purchase_price = ref(0.0);
 const threshold = ref(0);
 const prescription_req = ref(false);
 const barcode = ref('');
-const products = ref([]);
-const router = useRoute();
 
 const productStore = useProductStore();
-
-onMounted(async () => {
-  await productStore.fetchProducts();
-  products.value = productStore.products;
-});
+const router = useRouter();
 
 async function handleSubmit() {
   const productData = {
@@ -142,11 +138,14 @@ async function handleSubmit() {
 
   try {
     await productStore.addProduct(productData);
-    console.log('Product added successfully:', productData);
+    toast.success('Product added successfully!');
     resetForm();
-     // Redirect after submission
+
+    // Redirection après ajout
+    router.push('/stock/list');
   } catch (error) {
     console.error('Failed to add product:', error);
+    toast.error('Failed to add product. Please try again.');
   }
 }
 
@@ -159,7 +158,6 @@ function resetForm() {
   threshold.value = 0;
   prescription_req.value = false;
   barcode.value = '';
-  router.push("/stock/addProduit")
 }
 </script>
 

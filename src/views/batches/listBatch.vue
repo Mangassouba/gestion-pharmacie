@@ -151,7 +151,9 @@ b<template>
 import { useBatcheStore } from '../../stores/batchStore';
 import moment from 'moment';
 import { useProductStore } from '../../stores/productStore';
+import { useToast } from 'vue-toastification';
   
+const toast = useToast();
   const store = useBatcheStore();
   const productStore = useProductStore();
 
@@ -212,6 +214,7 @@ import { useProductStore } from '../../stores/productStore';
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {
       await store.deletebatch(id);
+      toast.success("Batch delete successfully")
     }
   };
   </script>

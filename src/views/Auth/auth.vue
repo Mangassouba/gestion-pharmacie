@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <h2>Connexion</h2>
+    <h2>Connect</h2>
     <form @submit.prevent="handleLogin">
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
@@ -13,7 +13,7 @@
         />
       </div>
       <div class="mb-3">
-        <label for="password" class="form-label">Mot de passe</label>
+        <label for="password" class="form-label">password</label>
         <input
           type="password"
           id="password"
@@ -22,7 +22,7 @@
           required
         />
       </div>
-      <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+      <button type="submit" class="btn btn-primary w-100">Login</button>
       <p class="forgot-password">
         <router-link to="/forgot-password">forgot-password</router-link>
       </p>
@@ -46,23 +46,6 @@ const auth = useAuthStore()
 
 const handleLogin = async () => {
   try {
-    // const response = await fetch("http://localhost:3000/login", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({
-    //     email: email.value,
-    //     password: password.value,
-    //   }),
-    // });
-
-    // const data = await response.json();
-
-    // if (!response.ok) {
-    //   errorMessage.value = data.message || "Erreur lors de la connexion";
-    //   return;
-    // }
     await auth.login(email.value, password.value)
     
 

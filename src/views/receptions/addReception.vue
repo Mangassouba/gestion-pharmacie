@@ -78,7 +78,9 @@ import { useReceptionStore } from '../../stores/receptionStore';
 import { useProductStore } from '../../stores/productStore';
 import { useRouter } from 'vue-router';
 import moment from 'moment';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const receptionStore = useReceptionStore();
 const productStore = useProductStore();
 const router = useRouter();
@@ -115,6 +117,7 @@ const handleSubmit = async () => {
     reception_date.value = '';
     receptionDetails.value = [{ productId: '', quantity: 1, price: 0 }];
     router.push('/reception/list');
+    toast.success("Add a reception successfully")
   } catch (error) {
     console.error("Failed to add reception:", error.message);
   }

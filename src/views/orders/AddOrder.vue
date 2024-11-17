@@ -94,7 +94,9 @@ import { useOrderStore } from '../../stores/orderStore';
 import { useProductStore } from '../../stores/productStore';
 import { useCustomerStore } from '../../stores/customerStore';
 import moment from 'moment';
+import { useToast } from 'vue-toastification';
 
+const toast = useToast();
 const router = useRouter();
 const store = useOrderStore();
 const productStore = useProductStore();
@@ -142,6 +144,7 @@ const handleSubmit = async () => {
   };
   await store.addOrder(newOrder);
   initializeFields();
+  toast.success("Add order successfully")
   router.push('/orders/list'); // Redirect to the order list page
 };
 </script>
