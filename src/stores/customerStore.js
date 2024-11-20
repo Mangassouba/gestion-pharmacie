@@ -49,7 +49,8 @@ export const useCustomerStore = defineStore('customer', {
         });
         this.customers.push(response.data);
       } catch (error) {
-        console.error('Erreur lors de l’ajout du produit:', error);
+        console.error('Erreur lors de l’ajout du customer:', error.message);
+        throw error;
       }
     },
     async updatecustomer(customerId, customerData) {
@@ -65,7 +66,8 @@ export const useCustomerStore = defineStore('customer', {
         const index = this.customers.findIndex(customer => customer.id === customerId);
         if (index !== -1) this.customers[index] = response.data;
       } catch (error) {
-        console.error('Erreur lors de la mise à jour du produit:', error);
+        console.error('Erreur lors de la mise à jour du produit:', error.message);
+        throw error
       }
     },
     async deletecustomer(customerId) {
@@ -83,7 +85,8 @@ export const useCustomerStore = defineStore('customer', {
         if (error.response && error.response.data && error.response.data.message) {
           toast.warning(error.response.data.message); // Affiche le message du backend dans une alerte
         } else {
-          console.error('Erreur lors de la suppression du client:', error);
+          console.error('Erreur lors de la suppression du client:', error.message);
+          throw error;
         }
       }
     },

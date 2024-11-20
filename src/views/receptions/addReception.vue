@@ -107,6 +107,26 @@ const removeDetail = (index) => {
 };
 
 const handleSubmit = async () => {
+
+  if (!reception_date.value) {
+    toast.error("Please provide a reception date.");
+    return;
+  }
+
+  for (const [index, detail] of receptionDetails.value.entries()) {
+    if (!detail.productId) {
+      toast.error(`Please select a product for item #${index + 1}.`);
+      return;
+    }
+    if (detail.quantity <= 0) {
+      toast.error(`Quantity for item #${index + 1} must be positive.`);
+      return;
+    }
+    if (detail.price <= 0) {
+      toast.error(`Price for item #${index + 1} must be positive.`);
+      return;
+    }
+  }
   const newReception = {
     reception_date: moment(reception_date.value).toISOString(),
     details: JSON.parse(JSON.stringify(receptionDetails.value))

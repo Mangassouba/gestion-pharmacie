@@ -137,6 +137,32 @@ const initializeFields = () => {
 };
 
 const handleSubmit = async () => {
+
+  if (!order_date.value) {
+    toast.error("Please select an order date.");
+    return false;
+  }
+
+  if (!customerId.value) {
+    toast.error("Please select a customer.");
+    return false;
+  }
+
+  for (const [index, detail] of orderDetails.value.entries()) {
+    if (!detail.productId) {
+      toast.error(`Please select a product for item #${index + 1}.`);
+      return false;
+    }
+    if (detail.quantity <= 0) {
+      toast.error(`Quantity for item ${index + 1} must be positive.`);
+      return false;
+    }
+    if (detail.price <= 0) {
+      toast.error(`Price for item ${index + 1} must be positive.`);
+      return false;
+    }
+  }
+
   const newOrder = {
     order_date: moment(order_date.value).toISOString(),
     customerId: customerId.value,

@@ -82,7 +82,7 @@
           <td>{{ product.prescription_req ? 'Oui' : 'Non' }}</td>
           <td>{{ product.barcode }}</td>
           <td class="text-center">
-            <button
+            <button v-if="userRole === 'ADMIN'"
               class="btn btn-danger btn-sm me-2" @click="handleDelete(product.id)"
             >
               <svg
@@ -166,13 +166,15 @@ import { useProductStore } from '../../stores/productStore';
 import { Modal } from 'bootstrap';
 import { RouterView } from 'vue-router';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '../../stores/authStore';
 
 const toast = useToast();
 const store = useProductStore();
 const searchQuery = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 10;
-
+const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
 // Fetch products on mount
 onMounted(async () => {
   await store.fetchProducts();

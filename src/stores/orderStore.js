@@ -47,7 +47,8 @@ export const useOrderStore = defineStore("order", {
         );
         this.orders.push(response.data);
       } catch (error) {
-        console.error("Erreur lors de l’ajout du produit:", error);
+        console.error("Erreur lors de l’ajout du produit:", error.message);
+        throw error;
       }
     },
     async updateOrder(orderId, orderData) {
@@ -84,7 +85,8 @@ export const useOrderStore = defineStore("order", {
           (order) => order.id !== orderId
         );
       } catch (error) {
-        console.error("Erreur lors de la suppression de commande:", error);
+        console.error("Erreur lors de la suppression de commande:", error.message);
+        throw error;
       }
     },
   },

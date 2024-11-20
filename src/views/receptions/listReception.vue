@@ -121,7 +121,7 @@
           <td>{{ order.id }}</td>
           <td>{{ formatDate(order.reception_date) }}</td>
           <td class="text-center">
-            <button
+            <button v-if="userRole === 'ADMIN'"
               class="btn btn-danger btn-sm me-2"
               @click="handleDelete(order.id)"
             >
@@ -192,6 +192,7 @@ import { useReceptionStore } from "../../stores/receptionStore";
 import { useProductStore } from "../../stores/productStore";
 import moment from "moment";
 import { useToast } from "vue-toastification";
+import { useAuthStore } from "../../stores/authStore";
 
 const toast = useToast();
 const store = useReceptionStore();
@@ -237,6 +238,9 @@ const prevPage = () => {
     currentPage.value--;
   }
 };
+
+const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
 
 const formatDate = (date) => {
   return moment(date).format("DD/MM/YYYY");

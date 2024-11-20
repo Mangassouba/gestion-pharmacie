@@ -56,7 +56,7 @@
             <td>{{ supplier.stock }}</td>
             <td>{{ getProductName(supplier.productId) }}</td>
             <td class="text-center">
-              <button
+              <button v-if="userRole === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(supplier.id)"
               >
                 <svg
@@ -123,6 +123,7 @@ import { useinventoriesStore } from '../../stores/inventorStore';
 import { useProductStore } from '../../stores/productStore';
 import moment from 'moment';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '../../stores/authStore';
 
 const toast = useToast();
 const store = useinventoriesStore();
@@ -171,6 +172,9 @@ const prevPage = () => {
     currentPage.value--;
   }
 };
+
+const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
 
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this supplier?")) {

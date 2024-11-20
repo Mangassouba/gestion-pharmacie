@@ -47,7 +47,8 @@ export const useinventoriesStore = defineStore('inventories', {
         });
         this.inventories.push(response.data);
       } catch (error) {
-        console.error('Erreur lors de l’ajout du produit:', error);
+        console.error('Erreur lors de l’ajout du produit:', error.message);
+        throw error;
       }
     },
     async updateinventories(inventoriesId, inventoriesData) {
@@ -63,7 +64,8 @@ export const useinventoriesStore = defineStore('inventories', {
         const index = this.inventories.findIndex(inventories => inventories.id === inventoriesId);
         if (index !== -1) this.inventoriess[index] = response.data;
       } catch (error) {
-        console.error('Erreur lors de la mise à jour du produit:', error);
+        console.error('Erreur lors de la mise à jour du produit:', error.message);
+        throw error;
       }
     },
     async deleteInventories(inventoriesId) {
@@ -76,7 +78,8 @@ export const useinventoriesStore = defineStore('inventories', {
         });
         this.inventories = this.inventories.filter(inventories => inventories.id !== inventoriesId);
       } catch (error) {
-        console.error('Erreur lors de la suppression du produit:', error);
+        console.error('Erreur lors de la suppression du produit:', error.message);
+        throw error;
       }
     },
   },

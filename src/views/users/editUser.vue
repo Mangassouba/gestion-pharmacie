@@ -13,6 +13,7 @@
               placeholder="Enter name"
               required
             />
+            <small v-if="errors.name" class="text-danger">{{ errors.name }}</small>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -24,6 +25,7 @@
               placeholder="Enter email"
               required
             />
+            <small v-if="errors.email" class="text-danger">{{ errors.email }}</small>
           </div>
         </div>
   
@@ -40,6 +42,7 @@
               <option value="ADMIN">ADMIN</option>
               <option value="CAISSIER">CAISSIER</option>
             </select>
+            <small v-if="errors.role" class="text-danger">{{ errors.role }}</small>
           </div>
           <div class="mb-3">
             <label for="status" class="form-label">Status</label>
@@ -53,6 +56,7 @@
               <option value="ACTIVE">ACTIVE</option>
               <option value="INACTIVE">INACTIVE</option>
             </select>
+            <small v-if="errors.status" class="text-danger">{{ errors.status }}</small>
           </div>
         </div>
   
@@ -80,6 +84,7 @@ const name = ref('');
 const email = ref('');
 const role = ref('');
 const status = ref('');
+const errors = ref({});
 const id = route.params.id;
 
 // Fetch customer details on component mount
@@ -95,6 +100,7 @@ onMounted(() => {
 
 // Update customer in store and redirect to customer list
 async function updateuser() {
+  errors.value = {};
   try {
     await store.updateUser(id, {
       name: name.value,
@@ -105,7 +111,14 @@ async function updateuser() {
     router.push('/user/list');
     toast.success("User edit successfully")
   } catch (error) {
-    console.error('Failed to update customer:', error);
+    if (error.response && error.response.data && error.response.data.errors) {
+      // Map backend validation errors to fields
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg;
+      });
+    } else {
+      toast.error('Failed to update customer');
+    }
   }
 }
 </script>

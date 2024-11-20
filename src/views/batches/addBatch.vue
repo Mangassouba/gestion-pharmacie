@@ -13,6 +13,7 @@
               placeholder="Enter number"
               required
             />
+            <small v-if="errors.number" class="text-danger">{{ errors.number }}</small>
           </div>
         </div>
   
@@ -27,6 +28,7 @@
               placeholder="Enter quantity"
               required
             />
+            <small v-if="errors.quantity" class="text-danger">{{ errors.quantity }}</small>
           </div>
           <div class="mb-3">
             <label for="expiration_date" class="form-label">Expiration date</label>
@@ -37,6 +39,7 @@
               class="form-control"
               required
             />
+            <small v-if="errors.expiration_date" class="text-danger">{{ errors.expiration_date }}</small>
           </div>
           <div class="mb-3">
             <label for="productId" class="form-label">Product</label>
@@ -51,6 +54,7 @@
                 {{ product.name }}
               </option>
             </select>
+            <small v-if="errors.productId" class="text-danger">{{ errors.productId }}</small>
           </div>
         </div>
   
@@ -74,6 +78,7 @@ import { useToast } from "vue-toastification";
   const expiration_date = ref("");
   const productId = ref("");
   const products = ref([]);
+  const errors = ref({}); 
   
   const batchStore = useBatcheStore();
   const productStore = useProductStore();
@@ -106,7 +111,13 @@ import { useToast } from "vue-toastification";
       router.push("/batch/list");
       toast.success("Batch add successfully")
     } catch (error) {
+      if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg; // Map backend errors to fields
+      });
+    } else {
       console.error("Failed to add batch:", error);
+    }
     }
   }
   

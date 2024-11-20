@@ -13,6 +13,7 @@
               placeholder="Enter name"
               required
             />
+            <small v-if="errors.name" class="text-danger">{{ errors.name }}</small>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -24,6 +25,7 @@
               placeholder="Enter Email"
               required
             />
+            <small v-if="errors.email" class="text-danger">{{ errors.email }}</small>
           </div>
         </div>
   
@@ -38,6 +40,7 @@
               placeholder="Enter password"
               required
             />
+            <small v-if="errors.password" class="text-danger">{{ errors.password }}</small>
           </div>
           <div class="mb-3">
             <label for="role" class="form-label">Role</label>
@@ -51,6 +54,7 @@
               <option value="ADMIN">ADMIN</option>
               <option value="CAISSIER">CAISSIER</option>
             </select>
+            <small v-if="errors.role" class="text-danger">{{ errors.role }}</small>
           </div>
           <div class="mb-3">
             <label for="status" class="form-label">Status</label>
@@ -64,6 +68,7 @@
               <option value="ACTIVE">Active</option>
               <option value="INACTIVE">Inactive</option>
             </select>
+            <small v-if="errors.status" class="text-danger">{{ errors.status }}</small>
           </div>
         </div>
   
@@ -86,6 +91,7 @@ import { useToast } from "vue-toastification";
   const password = ref("");
   const role = ref("");
   const status = ref("");
+  const errors = ref({});
   
   const userStore = useUserStore();
   const router = useRouter();
@@ -106,7 +112,13 @@ import { useToast } from "vue-toastification";
       router.push("/user/list");
       toast.success("User add successfully")
     } catch (error) {
-      console.error("Failed to add customer:", error);
+      if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg; // Map backend errors to fields
+      });
+    } else {
+      console.error("Failed to add user");
+    }
     }
   }
   

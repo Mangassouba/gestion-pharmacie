@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-4">
-      <h2>Add a Reception</h2>
+      <h2>Add a Sale</h2>
       <form @submit.prevent="handleSubmit">
         <!-- Reception Info Section -->
         <div class="mb-3">
@@ -30,7 +30,7 @@
   
         <!-- Reception Details Section -->
         <div>
-          <h3>Reception Details</h3>
+          <h3>Sale Details</h3>
           <div v-for="(detail, index) in saleDetails" :key="index" class="mb-3">
             <div class="row align-items-end">
               <div class="col-md-5">
@@ -128,6 +128,29 @@ import { useToast } from 'vue-toastification';
   };
   
   const handleSubmit = async () => {
+
+    // Vérification des champs obligatoires
+  if (!sale_date.value || !customerId.value) {
+    toast.error("Please fill in the sale date and customer.");
+    return;
+  }
+
+  // Vérification des détails (quantity et price positifs)
+  for (const [index, detail] of saleDetails.value.entries()) {
+    if (!detail.productId) {
+      toast.error(`Please select a product for item #${index + 1}.`);
+      return;
+    }
+    if (detail.quantity <= 0) {
+      toast.error(`Quantity for item  must be positive.`);
+      return;
+    }
+    if (detail.price <= 0) {
+      toast.error(`Price for item  must be positive.`);
+      return;
+    }
+  }
+
     const newOrder = {
       sale_date: moment(sale_date.value).toISOString(),
       customerId: customerId.value,

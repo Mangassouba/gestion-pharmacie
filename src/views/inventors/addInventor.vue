@@ -15,6 +15,7 @@
             placeholder="Enter name"
             required
           />
+          <small v-if="errors.inventory_date" class="text-danger">{{ errors.inventory_date }}</small>
         </div>
       </div>
 
@@ -29,6 +30,7 @@
             placeholder="Enter stock"
             required
           />
+          <small v-if="errors.stock" class="text-danger">{{ errors.stock }}</small>
         </div>
         <div class="mb-3">
           <label class="form-label">Product</label>
@@ -42,6 +44,7 @@
               {{ product.name }}
             </option>
           </select>
+          <small v-if="errors.productId" class="text-danger">{{ errors.productId }}</small>
         </div>
       </div>
 
@@ -67,6 +70,7 @@ const inventory_date = ref("");
 const stock = ref("");
 const productId = ref("");
 const products = ref([]);
+const errors = ref({});
 
 onMounted(async () => {
   try {
@@ -90,7 +94,13 @@ async function handleSubmit() {
     resetForm();
     router.push("/inventor/list");
   } catch (error) {
-    console.error("Failed to add customer:", error);
+    if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg; // Map backend errors to fields
+      });
+    } else {
+      toast.error("Failed to add customer");
+    }
   }
 }
 

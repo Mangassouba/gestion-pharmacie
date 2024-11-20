@@ -68,7 +68,7 @@
           <td>{{ getCustomerName(order.customerId) }}</td>
             
             <td class="text-center">
-              <button
+              <button v-if="userRole === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(order.id)"
               >
                 <svg
@@ -155,6 +155,7 @@
   import moment from 'moment';
   import { useProductStore } from '../../stores/productStore';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '../../stores/authStore';
   
 const toast = useToast();
   const store = useOrderStore();
@@ -204,6 +205,9 @@ const toast = useToast();
       currentPage.value--;
     }
   };
+
+  const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
   
   const getCustomerName = (customerId) => {
     const customer = customerStore.customers.find((c) => c.id === customerId);

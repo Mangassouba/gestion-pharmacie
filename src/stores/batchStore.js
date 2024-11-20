@@ -47,7 +47,8 @@ export const useBatcheStore = defineStore('batch', {
         });
         this.batches.push(response.data);
       } catch (error) {
-        console.error('Erreur lors de l’ajout du produit:', error);
+        console.error('Erreur lors de l’ajout du produit:', error.message);
+        throw error;
       }
     },
     async updatebatch(batchId, batchData) {
@@ -63,7 +64,8 @@ export const useBatcheStore = defineStore('batch', {
         const index = this.batches.findIndex(batch => batch.id === batchId);
         if (index !== -1) this.batches[index] = response.data;
       } catch (error) {
-        console.error('Erreur lors de la mise à jour du produit:', error);
+        console.error('Erreur lors de la mise à jour du produit:', error.message);
+        throw error;
       }
     },
     async deletebatch(batchId) {
@@ -76,7 +78,8 @@ export const useBatcheStore = defineStore('batch', {
         });
         this.batches = this.batches.filter(batch => batch.id !== batchId);
       } catch (error) {
-        console.error('Erreur lors de la suppression du produit:', error);
+        console.error('Erreur lors de la suppression du produit:', error.message);
+        throw error;
       }
     },
   },

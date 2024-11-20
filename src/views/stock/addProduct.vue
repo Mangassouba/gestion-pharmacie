@@ -13,6 +13,7 @@
             placeholder="Enter product name"
             required
           />
+          <small v-if="errors.name" class="text-danger">{{ errors.name }}</small>
         </div>
         <div class="col-md-6 mb-3">
           <label for="description" class="form-label">Description</label>
@@ -24,6 +25,7 @@
             placeholder="Enter product description"
             required
           />
+          <small v-if="errors.description" class="text-danger">{{ errors.description }}</small>
         </div>
       </div>
 
@@ -38,6 +40,7 @@
             placeholder="Enter stock quantity"
             required
           />
+          <small v-if="errors.stock" class="text-danger">{{ errors.stock }}</small>
         </div>
         <div class="col-md-6 mb-3">
           <label for="salePrice" class="form-label">Sale Price</label>
@@ -49,6 +52,7 @@
             placeholder="Enter sale price"
             required
           />
+          <small v-if="errors.sale_price" class="text-danger">{{ errors.sale_price }}</small>
         </div>
       </div>
 
@@ -63,6 +67,7 @@
             placeholder="Enter purchase price"
             required
           />
+          <small v-if="errors.purchase_price" class="text-danger">{{ errors.purchase_price }}</small>
         </div>
         <div class="col-md-6 mb-3">
           <label for="threshold" class="form-label">Stock Threshold</label>
@@ -74,6 +79,7 @@
             placeholder="Enter stock threshold"
             required
           />
+          <small v-if="errors.threshold" class="text-danger">{{ errors.threshold }}</small>
         </div>
       </div>
 
@@ -84,6 +90,7 @@
             <option :value="true">Yes</option>
             <option :value="false">No</option>
           </select>
+          <small v-if="errors.prescription_req" class="text-danger">{{ errors.prescription_req }}</small>
         </div>
         <div class="col-md-6 mb-3">
           <label for="barcode" class="form-label">Barcode</label>
@@ -95,6 +102,7 @@
             placeholder="Enter barcode"
             required
           />
+          <small v-if="errors.barcode" class="text-danger">{{ errors.barcode }}</small>
         </div>
       </div>
 
@@ -120,11 +128,13 @@ const purchase_price = ref(0.0);
 const threshold = ref(0);
 const prescription_req = ref(false);
 const barcode = ref('');
+const errors = ref({});
 
 const productStore = useProductStore();
 const router = useRouter();
 
 async function handleSubmit() {
+  errors.value = {};
   const productData = {
     name: name.value,
     description: description.value,
@@ -144,8 +154,15 @@ async function handleSubmit() {
     // Redirection après ajout
     router.push('/stock/list');
   } catch (error) {
-    console.error('Failed to add product:', error);
-    toast.error('Failed to add product. Please try again.');
+    if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg; // Map backend errors to fields
+      });
+    } else {
+      toast.error("An unexpected error occurred.");
+    }
+    // console.error('Failed to add product:', error);
+    // toast.error('Failed to add product. Please try again.');
   }
 }
 

@@ -60,7 +60,7 @@
             <td>{{ supplier.address }}</td>
             <td>{{ supplier.contact }}</td>
             <td class="text-center">
-              <button
+              <button v-if="userRole === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(supplier.id)"
               >
                 <svg
@@ -144,6 +144,7 @@
   import { RouterView } from 'vue-router';
 import { useSupplierStore } from '../../stores/supplierStore';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '../../stores/authStore';
 
 const toast = useToast();  
   const store = useSupplierStore();
@@ -190,6 +191,9 @@ const toast = useToast();
       currentPage.value--;
     }
   };
+
+  const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
     
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {

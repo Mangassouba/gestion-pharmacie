@@ -47,7 +47,8 @@ export const useUserStore = defineStore('user', {
         });
         this.users.push(response.data);
       } catch (error) {
-        console.error('Erreur lors de l’ajout du produit:', error);
+        console.error('Erreur lors de l’ajout du user:', error.message);
+        throw error;
       }
     },
     async updateUser(userId, userData) {
@@ -63,7 +64,8 @@ export const useUserStore = defineStore('user', {
         const index = this.users.findIndex(user => user.id === userId);
         if (index !== -1) this.users[index] = response.data;
       } catch (error) {
-        console.error('Erreur lors de la mise à jour du produit:', error);
+        console.error('Erreur lors de la mise à jour du produit:', error.message);
+        throw error;
       }
     },
     async deleteUser(userId) {
@@ -76,7 +78,8 @@ export const useUserStore = defineStore('user', {
         });
         this.users = this.users.filter(user => user.id !== userId);
       } catch (error) {
-        console.error('Erreur lors de la suppression du produit:', error);
+        console.error('Erreur lors de la suppression du produit:', error.message);
+        throw error;
       }
     },
   },

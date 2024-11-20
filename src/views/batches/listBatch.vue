@@ -66,7 +66,7 @@ b<template>
             <td>{{ formatDate(batch.expiration_date ) }}</td>
             <td>{{ getProductName(batch.productId) }}</td>
             <td class="text-center">
-              <button
+              <button v-if="userRole === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(batch.id)"
               >
                 <svg
@@ -152,6 +152,7 @@ import { useBatcheStore } from '../../stores/batchStore';
 import moment from 'moment';
 import { useProductStore } from '../../stores/productStore';
 import { useToast } from 'vue-toastification';
+import { useAuthStore } from '../../stores/authStore';
   
 const toast = useToast();
   const store = useBatcheStore();
@@ -206,6 +207,9 @@ const toast = useToast();
       currentPage.value--;
     }
   };
+
+  const authStore = useAuthStore();
+const userRole = ref(authStore.user.role);
 
   const formatDate = (date) => {
   return moment(date).format("DD/MM/YYYY");

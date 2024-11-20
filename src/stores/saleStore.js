@@ -49,7 +49,8 @@ export const useSaleStore = defineStore("sale", {
         );
         this.sales.push(response.data);
       } catch (error) {
-        console.error("Erreur lors de l’ajout du produit:", error);
+        console.error("Erreur lors de l’ajout du produit:", error.message);
+        throw error;
       }
     },
     async updateSale(saleId, saleData) {
@@ -71,7 +72,8 @@ export const useSaleStore = defineStore("sale", {
         );
         if (index !== -1) this.sales[index] = response.data;
       } catch (error) {
-        console.error("Erreur lors de la mise à jour de commande:", error);
+        console.error("Erreur lors de la mise à jour de commande:", error.message);
+        throw error;
       }
     },
     async deleteSale(saleId) {
@@ -86,7 +88,8 @@ export const useSaleStore = defineStore("sale", {
           (sale) => sale.id !== saleId
         );
       } catch (error) {
-        console.error("Erreur lors de la suppression de commande:", error);
+        console.error("Erreur lors de la suppression de commande:", error.message);
+        throw error;
       }
     },
   },

@@ -91,7 +91,7 @@
           <i class="fas fa-exchange-alt"></i> <span class="menu-text">Movement</span>
         </RouterLink>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" v-if="authStore.user.role === 'ADMIN'">
         <RouterLink
           to="/user/list"
           class="nav-link text-white"
