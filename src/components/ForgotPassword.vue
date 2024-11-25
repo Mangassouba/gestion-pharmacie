@@ -1,14 +1,14 @@
 <template>
   <div class="forgot-password">
-    <h4>Réinitialiser le mot de passe</h4>
+    <h4>Reset Password</h4>
     <form @submit.prevent="handleForgotPassword">
       <input
         type="email"
         v-model="email"
-        placeholder="Entrez votre email"
+        placeholder="Enter your email"
         required
       />
-      <button type="submit">Envoyer</button>
+      <button type="submit">Send</button>
     </form>
     <p v-if="message" class="message">{{ message }}</p>
   </div>
@@ -28,13 +28,13 @@ async function handleForgotPassword() {
       "http://localhost:3000/request-password-reset",
       { email: email.value }
     );
-    message.value = response.data.message || "Lien de réinitialisation envoyé.";
-    toast.success("Lien de réinitialisation envoyé !");
+    message.value = response.data.message || "Reset link sent.";
+    toast.success("Reset link sent!");
   } catch (error) {
-    message.value = error.response.data.message || "Erreur lors de l'envoi.";
-    toast.error("Erreur lors de l'envoi.");
+    message.value = error.response.data.message || "Error sending.";
+    toast.error("Error sending.");
   }
-  console.log("Valeur de l'email :", email.value);
+  console.log("Email value:", email.value);
 }
 </script>
   

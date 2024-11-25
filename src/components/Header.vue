@@ -1,33 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
-    <a class="navbar-brand" href="#">Gestion de Stock</a>
-
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <a class="navbar-brand text-white" href="#">Stock Management</a>
     <div class="ms-auto d-flex align-items-center">
-      <!-- <button class="btn btn-outline-primary mx-1"> -->
-        <i class="fas fa-bell me-3 mt-1"></i>
-      <!-- </button> -->
-     
-      <!-- <div class="dropdown me-3">
-        <button
-          class="btn btn-outline-primary dropdown-toggle"
-          type="button"
-          id="languageDropdown"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          {{ currentLanguage }}
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-          <li>
-            <a class="dropdown-item" href="#" @click="changeLanguage('fr')">Français (FR)</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="#" @click="changeLanguage('ar')">العربية (AR)</a>
-          </li>
-        </ul>
-      </div> -->
+      <i class="fas fa-bell me-3 mt-1 text-white"></i>
       <div v-if="userName" class="me-3">
-        <span class="user-name me-2 "><i class="fas fa-user"></i> {{ userName }}</span>
+        <span class="user-name me-2 text-white"><i class="fas fa-user"></i> {{ userName }}</span>
       </div>
     </div>
   </nav>
@@ -38,11 +15,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useAuthStore } from '../stores/authStore';
 
 const authStore = useAuthStore();
-const currentLanguage = ref('FR');
-
-const changeLanguage = (lang) => {
-  currentLanguage.value = lang === 'fr' ? 'FR' : 'AR';
-};
 
 const userName = computed(() => authStore.user ? authStore.user.name : null);
 
@@ -51,25 +23,29 @@ onMounted(() => {
     authStore.fetchCurrentUser();
   }
 });
-
-const logout = () => {
-  authStore.logout();
-};
 </script>
 
 <style scoped>
 .navbar {
   height: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; 
+  background-color: #343a40; 
 }
-.btn {
-  transition: background-color 0.3s, color 0.3s;
+
+.navbar + .dashboard-container {
+  margin-top: 60px; 
 }
-.btn:hover {
-  background-color: #007bff;
-  color: #fff;
-}
+
 .user-name {
   font-weight: bold;
-  color: #333;
+  color: #fff;
+}
+
+.navbar-brand, .text-white {
+  color: #fff !important; 
 }
 </style>

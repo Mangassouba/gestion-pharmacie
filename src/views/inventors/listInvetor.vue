@@ -56,7 +56,7 @@
             <td>{{ supplier.stock }}</td>
             <td>{{ getProductName(supplier.productId) }}</td>
             <td class="text-center">
-              <button v-if="userRole === 'ADMIN'"
+              <button v-if="authStore.user && authStore.user.role === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(supplier.id)"
               >
                 <svg
@@ -174,7 +174,7 @@ const prevPage = () => {
 };
 
 const authStore = useAuthStore();
-const userRole = ref(authStore.user.role);
+// const userRole = ref(authStore.user.role);
 
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this supplier?")) {

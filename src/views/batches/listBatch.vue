@@ -47,7 +47,7 @@ b<template>
         </div>
       </div>
   
-      <table class="table table-striped table-bordered mt-4 mb-4">
+      <table class="table table-striped  mt-4 mb-4">
         <thead>
           <tr>
             <th>#</th>
@@ -66,7 +66,7 @@ b<template>
             <td>{{ formatDate(batch.expiration_date ) }}</td>
             <td>{{ getProductName(batch.productId) }}</td>
             <td class="text-center">
-              <button v-if="userRole === 'ADMIN'"
+              <button v-if="authStore.user && authStore.user.role === 'ADMIN'"
                 class="btn btn-danger btn-sm me-2" @click="handleDelete(batch.id)"
               >
                 <svg
@@ -209,7 +209,7 @@ const toast = useToast();
   };
 
   const authStore = useAuthStore();
-const userRole = ref(authStore.user.role);
+// const userRole = ref(authStore.user.role);
 
   const formatDate = (date) => {
   return moment(date).format("DD/MM/YYYY");

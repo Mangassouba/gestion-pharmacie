@@ -1,9 +1,11 @@
 <template>
   <div class="dashboard-layout" id="wrapper">
     <Header />
-
     <div class="dashboard-container">
       <Sidebar />
+      <div class="dashboard-content">
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
@@ -28,6 +30,14 @@ import Header from "../../components/Header.vue";
 .dashboard-content {
   flex: 1;
   padding: 20px;
+  margin-top: 25px;
   overflow-y: auto;
+  margin-left: 250px; /* Allow space for the sidebar */
+}
+
+@media (max-width: 768px) {
+  .dashboard-content {
+    margin-left: 0; /* Remove sidebar margin on mobile */
+  }
 }
 </style>

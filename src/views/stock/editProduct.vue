@@ -30,19 +30,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-6 mb-3">
-          <label for="stock" class="form-label">Stock Quantity</label>
-          <input
-            v-model="stock"
-            type="number"
-            id="stock"
-            class="form-control"
-            placeholder="Enter stock quantity"
-            required
-          />
-          <small v-if="errors.stock" class="text-danger">{{ errors.stock }}</small>
-        </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-12 mb-3">
           <label for="salePrice" class="form-label">Sale Price</label>
           <input
             v-model="sale_price"

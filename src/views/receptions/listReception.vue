@@ -105,7 +105,7 @@
       </div>
     </div>
 
-    <table class="table table-striped table-bordered mt-4 mb-4">
+    <table class="table table-striped mt-4 mb-4">
       <thead>
         <tr>
           <th>#</th>
@@ -121,7 +121,7 @@
           <td>{{ order.id }}</td>
           <td>{{ formatDate(order.reception_date) }}</td>
           <td class="text-center">
-            <button v-if="userRole === 'ADMIN'"
+            <button v-if="authStore.user && authStore.user.role === 'ADMIN'"
               class="btn btn-danger btn-sm me-2"
               @click="handleDelete(order.id)"
             >
@@ -240,7 +240,7 @@ const prevPage = () => {
 };
 
 const authStore = useAuthStore();
-const userRole = ref(authStore.user.role);
+// const userRole = ref(authStore.user.role);
 
 const formatDate = (date) => {
   return moment(date).format("DD/MM/YYYY");

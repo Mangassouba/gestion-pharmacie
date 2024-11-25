@@ -55,7 +55,7 @@
       </div>
     </div>
 
-    <table class="table table-striped table-bordered mt-4 mb-4">
+    <table class="table table-striped mt-4 mb-4">
       <thead>
         <tr>
           <th>#</th>
@@ -82,7 +82,7 @@
           <td>{{ product.prescription_req ? 'Oui' : 'Non' }}</td>
           <td>{{ product.barcode }}</td>
           <td class="text-center">
-            <button v-if="userRole === 'ADMIN'"
+            <button v-if="authStore.user && authStore.user.role === 'ADMIN'"
               class="btn btn-danger btn-sm me-2" @click="handleDelete(product.id)"
             >
               <svg
@@ -174,7 +174,7 @@ const searchQuery = ref('');
 const currentPage = ref(1);
 const itemsPerPage = 10;
 const authStore = useAuthStore();
-const userRole = ref(authStore.user.role);
+// const userRole = ref(authStore.user.role);
 // Fetch products on mount
 onMounted(async () => {
   await store.fetchProducts();

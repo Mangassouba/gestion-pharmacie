@@ -21,7 +21,7 @@
         <div class="col-6"></div>
       </div>
   
-      <table class="table table-striped table-bordered mt-4 mb-4">
+      <table class="table table-striped mt-4 mb-4">
         <thead>
           <tr>
             <th>#</th>

@@ -37,7 +37,9 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/authStore";
-
+import { useToast } from "vue-toastification";
+  
+const toast = useToast();
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
@@ -48,7 +50,7 @@ const handleLogin = async () => {
   try {
     await auth.login(email.value, password.value)
     
-
+    toast.success("Connect successfully")
     router.push("/main");
   } catch (error) {
     errorMessage.value = "Erreur de connexion. Veuillez réessayer.";

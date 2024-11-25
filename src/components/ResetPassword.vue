@@ -4,16 +4,16 @@
         <input
           type="password"
           v-model="newPassword"
-          placeholder="Nouveau mot de passe"
+          placeholder="New Password"
           required
         />
         <input
           type="password"
           v-model="confirmPassword"
-          placeholder="Confirmez le mot de passe"
+          placeholder="Confirm password"
           required
         />
-        <button type="submit">Confirmer</button>
+        <button type="submit">Confirm</button>
       </form>
       <p v-if="message" class="message"> {{ message }}</p>
     </div>
@@ -34,8 +34,8 @@
   
   async function handleResetPassword() {
     if (newPassword.value !== confirmPassword.value) {
-      message.value = "Les mots de passe ne correspondent pas.";
-      toast.error("Les mots de passe ne correspondent pas.");
+      message.value = "Passwords do not match.";
+      toast.error("Passwords do not match.");
       return;
     }
   
@@ -45,7 +45,7 @@
         token,
         newPassword: newPassword.value,
       });
-      message.value = response.data.message || "Mot de passe réinitialisé avec succès.";
+      message.value = response.data.message || "Password reset successfully.";
       toast.success("Mot de passe réinitialisé avec succès !");
       router.push("/");
     } catch (error) {
@@ -57,7 +57,7 @@
   
   <style scoped>
     .reset-password {
-  color: #fff; /* Couleur du texte */
+  color: #fff; 
   padding: 2rem;
   border-radius: 10px;
   width: 100%;

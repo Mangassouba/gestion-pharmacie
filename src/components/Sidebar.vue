@@ -91,7 +91,7 @@
           <i class="fas fa-exchange-alt"></i> <span class="menu-text">Movement</span>
         </RouterLink>
       </li>
-      <li class="nav-item" v-if="authStore.user.role === 'ADMIN'">
+      <li class="nav-item" v-if="authStore.user && authStore.user.role === 'ADMIN'">
         <RouterLink
           to="/user/list"
           class="nav-link text-white"
@@ -102,67 +102,69 @@
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link text-white" @click="handleLogout">
-          <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Déconnexion</span>
+          <i class="fas fa-sign-out-alt"></i> <span class="menu-text">Disconnect</span>
         </a>
       </li>
     </ul>
+    
   </div>
-  <RouterView />
 </template>
 
 <script setup>
-import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
+import {  RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/authStore';
-
+import { useToast } from "vue-toastification";
+  
+const toast = useToast();
 const authStore = useAuthStore();
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
 const isActiveRoute = (path) => {
   return route.path === path;
 };
 
-// const isActiveRoute = (path) => route.path === path;
-
 const handleLogout = () => {
   authStore.logout();
-  router.push('/'); // Redirige vers la page de connexion après la déconnexion
+  toast.success("Disconnect successfully")
+  router.push('/');
 };
 </script>
 
 <style scoped>
 .sidebar {
   width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  background-color: #343a40;
+  z-index: 1000; 
   transition: width 0.3s;
+  overflow-y: auto;
 }
-.sidebar:hover {
-  width: 250px;
-}
-.sidebar-title {
-  font-weight: bold;
-}
-.nav-link {
+
+.sidebar .nav-link {
   display: flex;
   align-items: center;
   padding: 10px;
   transition: background 0.3s;
 }
-.nav-link:hover {
+
+.sidebar .nav-link:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 5px;
 }
-.nav-link.active {
-  background-color: rgba(255, 255, 255, 0.1); /* Couleur pour le lien actif */
+
+.sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.1);
   color: white;
   font-weight: bold;
-  border-radius: 5px;
 }
-.nav-link i {
-  margin-right: 10px; /* Espace entre l'icône et le texte */
+
+.sidebar .nav-link i {
+  margin-right: 10px;
 }
-.menu-text {
-  transition: opacity 0.3s;
-}
+
 @media (max-width: 768px) {
   .sidebar {
     width: 60px;
