@@ -229,10 +229,18 @@ const prevPage = () => {
 
 const handleDelete = async (id) => {
   if (confirm("Are you sure you want to delete this product?")) {
-    await store.deleteProduct(id);
-    toast.success("Delete product successfully")
+    try {
+      await store.deleteProduct(id); // Appel de l'action de suppression
+      toast.success("Product deleted successfully!"); // Message de succès
+    } catch (error) {
+      // Vérification et affichage de l'erreur
+      const errorMessage = store.error || "An error occurred while deleting the product.";
+      toast.error(errorMessage);
+      console.error("Delete error:", errorMessage);
+    }
   }
 };
+
 </script>
 
 <style scoped>

@@ -79,6 +79,24 @@ export const useAuthStore = defineStore("authStore", {
       }
     },
     
+
+    async fetchCurrentUser() {
+  try {
+    if (!this.token) {
+      console.warn("Token d'accès manquant.");
+      return null;
+    }
+
+    const response = await axios.get("http://localhost:3000/me");
+    this.user = response.data.user;
+    return this.user;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des informations utilisateur :", error.response || error.message);
+    this.logout();
+    throw error;
+  }
+},
+
     isLoggedIn() {
       return !!this.token && !!this.user;
     },

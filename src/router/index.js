@@ -29,6 +29,8 @@ import AddInventor from "../views/inventors/addInventor.vue";
 
 import ForgotPassword from '../components/ForgotPassword.vue'
 import ResetPassword from '../components/ResetPassword.vue'
+import ProfileEdit from "../views/Auth/ProfileEdit.vue";
+import PasswordEdit from "../views/Auth/passwordEdit.vue";
 // import ListIventor from "../views/inventors/listIventor.vue";
 
 const routes = [
@@ -52,6 +54,16 @@ const routes = [
     name: "dashboard",
     component: Index,
     children: [
+      
+  {
+    path: "/profile/:id",
+    name: "ProfileEdit",
+    component: ProfileEdit,
+  },{
+    path: "/profile/:id/password",
+    name: "PasswordEdit",
+    component: PasswordEdit,
+  },
       {
         path: "/main",
         nama: "main",

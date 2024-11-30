@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './authStore';
+import { useToast } from 'vue-toastification';
+const toast = useToast();
 
 export const useSupplierStore = defineStore('supplier', {
   state: () => ({
@@ -45,7 +47,8 @@ export const useSupplierStore = defineStore('supplier', {
         });
         this.suppliers.push(response.data);
       } catch (error) {
-        console.error('Erreur lors de l’ajout du produit:', error);
+        console.error('Erreur lors de l’ajout du produit:', error.message);
+        throw error;
       }
     },
     async updateSupplier(supplierId, supplierData) {
@@ -61,7 +64,8 @@ export const useSupplierStore = defineStore('supplier', {
         const index = this.suppliers.findIndex(supplier => supplier.id === supplierId);
         if (index !== -1) this.suppliers[index] = response.data;
       } catch (error) {
-        console.error('Erreur lors de la mise à jour du produit:', error);
+        console.error('Erreur lors de la mise à jour du produit:', error.message);
+        throw error;
       }
     },
     async deleteSupplier(supplierId) {
@@ -74,7 +78,11 @@ export const useSupplierStore = defineStore('supplier', {
         });
         this.suppliers = this.suppliers.filter(supplier => supplier.id !== supplierId);
       } catch (error) {
-        console.error('Erreur lors de la suppression du produit:', error);
+        const message = error.response?.data?.message || "Erreur lors de la suppression du client.";
+          toast.error(message);
+          console.log("5465435354 ",message);
+          
+          throw new Error(message);
       }
     },
   },

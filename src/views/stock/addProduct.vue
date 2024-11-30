@@ -23,7 +23,6 @@
             id="description"
             class="form-control"
             placeholder="Enter product description"
-            required
           />
           <small v-if="errors.description" class="text-danger">{{ errors.description }}</small>
         </div>
@@ -34,7 +33,7 @@
           <label for="salePrice" class="form-label">Sale Price</label>
           <input
             v-model="sale_price"
-            type="number"
+            type="text"
             id="salePrice"
             class="form-control"
             placeholder="Enter sale price"
@@ -49,7 +48,7 @@
           <label for="purchasePrice" class="form-label">Purchase Price</label>
           <input
             v-model="purchase_price"
-            type="number"
+            type="text"
             id="purchasePrice"
             class="form-control"
             placeholder="Enter purchase price"
@@ -127,8 +126,8 @@ async function handleSubmit() {
     name: name.value,
     description: description.value,
     stock: stock.value,
-    sale_price: sale_price.value,
-    purchase_price: purchase_price.value,
+    sale_price: parseFloat(sale_price.value), // Conversion en float
+    purchase_price: parseFloat(purchase_price.value), // Conversion en float
     threshold: threshold.value,
     prescription_req: prescription_req.value,
     barcode: barcode.value,
@@ -149,8 +148,6 @@ async function handleSubmit() {
     } else {
       toast.error("An unexpected error occurred.");
     }
-    // console.error('Failed to add product:', error);
-    // toast.error('Failed to add product. Please try again.');
   }
 }
 

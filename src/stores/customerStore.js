@@ -81,13 +81,17 @@ export const useCustomerStore = defineStore('customer', {
         // Met à jour la liste des clients localement
         this.customers = this.customers.filter(customer => customer.id !== customerId);
       } catch (error) {
+        console.log(error.response);
+        
         // Vérifie si une réponse du backend est présente
-        if (error.response && error.response.data && error.response.data.message) {
-          toast.warning(error.response.data.message); // Affiche le message du backend dans une alerte
-        } else {
-          console.error('Erreur lors de la suppression du client:', error.message);
-          throw error;
-        }
+          // console.error('Erreur lors de la suppression du client:', error.message);
+          // throw error;
+          const message = error.response?.data?.message || "Erreur lors de la suppression du client.";
+          toast.error(message);
+          console.log("5465435354 ",message);
+          
+          throw new Error(message);
+        
       }
     },
   },

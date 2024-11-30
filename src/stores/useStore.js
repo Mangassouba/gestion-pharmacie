@@ -63,6 +63,7 @@ export const useUserStore = defineStore('user', {
         });
         const index = this.users.findIndex(user => user.id === userId);
         if (index !== -1) this.users[index] = response.data;
+        return response.data
       } catch (error) {
         console.error('Erreur lors de la mise à jour du produit:', error.message);
         throw error;
@@ -79,6 +80,23 @@ export const useUserStore = defineStore('user', {
         this.users = this.users.filter(user => user.id !== userId);
       } catch (error) {
         console.error('Erreur lors de la suppression du produit:', error.message);
+        throw error;
+      }
+    },
+    async updatePassword(userId, oldPassword, newPassword) {
+      try {
+        const response = await axios.put(
+          `http://localhost:3000/profile/${userId}/password`,
+          { oldPassword, newPassword },
+          {
+            headers: {
+              Authorization: `Bearer ${this.tokenUserActif}`,
+            },
+          }
+        );
+        return response.data; // Retourne la réponse du serveur pour afficher un message
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour du mot de passe :', error.message);
         throw error;
       }
     },

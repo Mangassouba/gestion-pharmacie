@@ -13,6 +13,7 @@
               placeholder="Enter name"
               required
             />
+            <small v-if="errors.name" class="text-danger">{{ errors.name }}</small>
           </div>
         </div>
   
@@ -27,6 +28,7 @@
               placeholder="Enter address"
               required
             />
+            <small v-if="errors.address" class="text-danger">{{ errors.address }}</small>
           </div>
           <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
@@ -38,6 +40,7 @@
               placeholder="Enter phone number"
               required
             />
+            <small v-if="errors.contact" class="text-danger">{{ errors.contact }}</small>
           </div>
         </div>
   
@@ -65,6 +68,7 @@ const name = ref('');
 const address = ref('');
 const contact = ref('');
 const id = route.params.id;
+const errors = ref({});
 
 // Fetch customer details on component mount
 onMounted(() => {
@@ -87,7 +91,14 @@ async function updateCustomer() {
     toast.success("Edit supplier successfully")
     router.push('/supplier/list'); // Change the route to your customer list page
   } catch (error) {
-    console.error('Failed to update customer:', error);
+    if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg;
+      });
+    } else {
+      console.error('Failed to update customer:', error);
+    }
+    
   }
 }
 </script>

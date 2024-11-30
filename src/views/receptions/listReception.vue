@@ -110,6 +110,7 @@
         <tr>
           <th>#</th>
           <th>Date</th>
+          <th>Supplier</th>
           <th class="text-center">Action</th>
         </tr>
       </thead>
@@ -120,6 +121,7 @@
         >
           <td>{{ order.id }}</td>
           <td>{{ formatDate(order.reception_date) }}</td>
+          <td>{{ getSupplierName(order.supplierId) }}</td>
           <td class="text-center">
             <button v-if="authStore.user && authStore.user.role === 'ADMIN'"
               class="btn btn-danger btn-sm me-2"
@@ -193,16 +195,19 @@ import { useProductStore } from "../../stores/productStore";
 import moment from "moment";
 import { useToast } from "vue-toastification";
 import { useAuthStore } from "../../stores/authStore";
+import { useSupplierStore } from "../../stores/supplierStore";
 
 const toast = useToast();
 const store = useReceptionStore();
 const productStore = useProductStore();
+const supplierStore = useSupplierStore()
 const currentPage = ref(1);
 const itemsPerPage = 10;
 
 onMounted(async () => {
   await store.fetchreceptions();
   await productStore.fetchProducts();
+  await supplierStore.fetchSuppliers();
 });
 
 const selectedReception = ref(null);
@@ -216,6 +221,12 @@ const openModal = (order) => {
 const getProductName = (productId) => {
   const product = productStore.products.find((p) => p.id === productId);
   return product ? product.name : "Unknown Product";
+};
+
+
+const getSupplierName = (supplierId) => {
+  const supplier = supplierStore.suppliers.find((p) => p.id === supplierId);
+  return supplier ? supplier.name : "Unknown supplier";
 };
 
 const paginatedFilteredReceptions = computed(() => {

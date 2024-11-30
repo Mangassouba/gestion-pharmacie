@@ -204,6 +204,7 @@ const toast = useToast();
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this customer?")) {
       await store.deletecustomer(id);
+      toast.success("Customer deleted successfully!");
     }
   };
   </script>

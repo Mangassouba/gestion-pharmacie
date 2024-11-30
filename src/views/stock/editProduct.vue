@@ -34,7 +34,7 @@
           <label for="salePrice" class="form-label">Sale Price</label>
           <input
             v-model="sale_price"
-            type="number"
+            type="text"
             id="salePrice"
             class="form-control"
             placeholder="Enter sale price"
@@ -49,7 +49,7 @@
           <label for="purchasePrice" class="form-label">Purchase Price</label>
           <input
             v-model="purchase_price"
-            type="number"
+            type="text"
             id="purchasePrice"
             class="form-control"
             placeholder="Enter purchase price"
@@ -156,17 +156,17 @@ onMounted(() => {
 // Update product in store and redirect to product list
 async function updateProduct() {
   try {
-    await store.updateProduct(id,{
+    await store.updateProduct(id, {
       name: name.value,
       description: description.value,
-      stock: stock.value,
-      sale_price: sale_price.value,
-      purchase_price: purchase_price.value,
+      stock: parseInt(stock.value),
+      sale_price: parseFloat(sale_price.value),
+      purchase_price: parseFloat(purchase_price.value),
       threshold: threshold.value,
       prescription_req: prescription_req.value,
       barcode: barcode.value,
     });
-    toast.success("Edit successfully")
+    toast.success("Edit successfully");
     router.push('/stock/list');
   } catch (error) {
     if (error.response && error.response.data && error.response.data.errors) {

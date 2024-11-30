@@ -10,6 +10,7 @@
           id="orderDate"
           v-model="order_date"
           class="form-control"
+          :max="maxDate"
           required
         />
       </div>
@@ -39,6 +40,7 @@
               <select
                 v-model="detail.productId"
                 class="form-control"
+                @change="updatePrice(index)"
                 required
               >
                 <option disabled value="">Select a product</option>
@@ -59,11 +61,14 @@
             <div class="col-md-3">
               <label class="form-label">Price</label>
               <input
-                type="number"
+                type="text"
                 v-model="detail.price"
                 class="form-control"
-                required
-              />
+                @blur="formatPrice(detail, index)"
+  />
+  <small v-if="errors[index]?.price" class="text-danger">
+    {{ errors[index].price }}
+  </small>
             </div>
             <div class="col-md-2 d-flex align-items-end">
               <button
@@ -103,14 +108,20 @@ const productStore = useProductStore();
 const customerStore = useCustomerStore();
 
 const order_date = ref('');
+const maxDate = ref('');
 const customerId = ref('');
 const orderDetails = ref([{ productId: '', quantity: 1, price: 0 }]);
 const customers = ref([]);
 const products = ref([]);
+const errors = ref({});
 
 // Fetch customers and products when the component mounts
 onMounted(async () => {
   try {
+    const today = new Date();
+    maxDate.value = today.toISOString().split('T')[0];
+    order_date.value = maxDate.value;
+
     await customerStore.fetchcustomers();
     await productStore.fetchProducts();
     customers.value = customerStore.customers;
@@ -130,14 +141,39 @@ const removeDetail = (index) => {
   }
 };
 
+const updatePrice = (index) => {
+  const selectedProductId = orderDetails.value[index].productId;
+  const selectedProduct = products.value.find(
+    (product) => product.id === selectedProductId
+  );
+
+  if (selectedProduct) {
+    orderDetails.value[index].price = parseFloat(selectedProduct.sale_price) || 0;
+  } else {
+    orderDetails.value[index].price = 0;
+  }
+};
+
 const initializeFields = () => {
   order_date.value = '';
   customerId.value = '';
   orderDetails.value = [{ productId: '', quantity: 1, price: 0 }];
 };
 
-const handleSubmit = async () => {
+const formatPrice = (detail, index) => {
+  const price = parseFloat(detail.price || 0);
+  if (price > 99999999) {
+    errors.value[index] = { price: "Price cannot exceed 8 digits." };
+  } else {
+    if (!errors.value[index]) {
+      errors.value[index] = {};
+    }
+    errors.value[index].price = null;
+    detail.price = price.toFixed(2);
+  }
+};
 
+const handleSubmit = async () => {
   if (!order_date.value) {
     toast.error("Please select an order date.");
     return false;
@@ -161,6 +197,8 @@ const handleSubmit = async () => {
       toast.error(`Price for item ${index + 1} must be positive.`);
       return false;
     }
+    // Ensure price is a float
+    detail.price = parseFloat(detail.price);
   }
 
   const newOrder = {
@@ -168,11 +206,23 @@ const handleSubmit = async () => {
     customerId: customerId.value,
     detailsOrder: JSON.parse(JSON.stringify(orderDetails.value))
   };
-  await store.addOrder(newOrder);
-  initializeFields();
-  toast.success("Add order successfully")
-  router.push('/orders/list'); // Redirect to the order list page
+  try {
+    await store.addOrder(newOrder);
+    initializeFields();
+    toast.success("Add order successfully");
+    router.push('/orders/list');
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg;
+      });
+    } else {
+      toast.error("Failed to add sale. Please try again.");
+      console.error("Error adding sale:", error.message);
+    }
+  }
 };
+
 </script>
 
 <style scoped>

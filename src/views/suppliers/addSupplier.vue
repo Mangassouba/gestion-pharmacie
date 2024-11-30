@@ -13,6 +13,7 @@
               placeholder="Enter name"
               required
             />
+            <small v-if="errors.name" class="text-danger">{{ errors.name }}</small>
           </div>
         </div>
   
@@ -27,6 +28,7 @@
               placeholder="Enter address"
               required
             />
+            <small v-if="errors.address" class="text-danger">{{ errors.address }}</small>
           </div>
           <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
@@ -38,6 +40,7 @@
               placeholder="Enter phone number"
               required
             />
+            <small v-if="errors.contact" class="text-danger">{{ errors.contact }}</small>
           </div>
         </div>
   
@@ -58,13 +61,15 @@ const toast = useToast();
   const name = ref("");
   const address = ref("");
   const contact = ref("");
-  
+  const errors = ref({});
+
   const supplierStore = useSupplierStore();
   const router = useRouter();
   
   async function handleSubmit() {
+    errors.value = {};
     const supplierData = {
-        name: name.value,
+      name: name.value,
       address: address.value,
       contact: contact.value,
     };
@@ -76,7 +81,14 @@ const toast = useToast();
       router.push("/supplier/list"); 
       toast.success("Supplier add successfully")
     } catch (error) {
-      console.error("Failed to add customer:", error);
+      if (error.response && error.response.data && error.response.data.errors) {
+      error.response.data.errors.forEach((err) => {
+        errors.value[err.path] = err.msg;
+      });
+    } else{
+      
+      toast.error("Failed to add customer:");
+    }
     }
   }
   
